@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Assignment Coach — Free Study Tool: Plan, Write & Check Assignments + Run Code</title>
+<meta name="description" content="Free AI-style study coach: paste your lecture slides, get a step-by-step plan, a section-by-section writing guide, live feedback on your own writing, and run Python/Java/C++ in the browser. Learn to do your assignment yourself — essays, reports, data reports, legal IRAC, financial plans and coding." />
+<meta name="keywords" content="free assignment helper, essay planner, how to write an assignment, study tool, IRAC legal answer, Power BI report structure, run python in browser, referencing APA MLA, assignment coach, student writing feedback" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://shubhamyadav730405-droid.github.io/" />
+<!-- Open Graph / social sharing (used by Facebook, LinkedIn, Discord, WhatsApp) -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Assignment Coach — Free study tool that teaches you to ace your assignment" />
+<meta property="og:description" content="Plan it, write it yourself, get live feedback, and run your code — all free, all in your browser. Essays, reports, IRAC, financial plans & coding." />
+<meta property="og:url" content="https://shubhamyadav730405-droid.github.io/" />
+<meta property="og:image" content="https://shubhamyadav730405-droid.github.io/preview.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Assignment Coach — Free study tool" />
+<meta name="twitter:description" content="Plan, write, get live feedback, and run code — free, in your browser." />
+<style>
+  :root {
+    --bg: #f6f8fb;
+    --panel: #ffffff;
+    --ink: #0f172a;
+    --muted: #64748b;
+    --line: #e2e8f0;
+    --brand: #2563eb;
+    --brand-soft: #eff6ff;
+    --good: #16a34a;
+    --warn: #d97706;
+    --bad: #dc2626;
+    --shadow: 0 1px 3px rgba(15,23,42,.06), 0 8px 24px rgba(15,23,42,.06);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  header.topbar {
+    background: var(--panel);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; }
+  .logo {
+    width: 30px; height: 30px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--brand), #7c3aed);
+    display: grid; place-items: center; color: #fff; font-size: 16px;
+  }
+  .tagline { color: var(--muted); font-size: 13px; font-weight: 500; }
+  .honor {
+    background: #fff7ed; border: 1px solid #fed7aa; color: #9a3412;
+    font-size: 13px; padding: 8px 14px; border-radius: 8px; margin: 16px 24px 0;
+  }
+  .wrap { padding: 16px 24px 60px; max-width: 1400px; margin: 0 auto; }
+  h2 { font-size: 17px; margin: 0 0 12px; }
+  h3 { font-size: 14px; margin: 18px 0 8px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  .card {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 14px; padding: 18px; box-shadow: var(--shadow); margin-bottom: 18px;
+  }
+  label { font-size: 13px; font-weight: 600; display: block; margin: 12px 0 5px; }
+  input[type=text], textarea, select {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--line);
+    border-radius: 9px; font: inherit; color: var(--ink); background: #fff;
+  }
+  textarea { resize: vertical; }
+  input:focus, textarea:focus, select:focus { outline: 2px solid var(--brand-soft); border-color: var(--brand); }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .btn {
+    background: var(--brand); color: #fff; border: none; padding: 10px 16px;
+    border-radius: 9px; font: inherit; font-weight: 600; cursor: pointer;
+  }
+  .btn:hover { background: #1d4ed8; }
+  .btn.secondary { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+  .btn.secondary:hover { background: #f8fafc; }
+  .btn.small { padding: 7px 12px; font-size: 13px; }
+  .btnbar { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+
+  /* layout */
+  .grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px; align-items: start; }
+  @media (max-width: 980px){ .grid { grid-template-columns: 1fr; } .row { grid-template-columns: 1fr; } }
+
+  /* plan */
+  .plan ol { padding-left: 20px; margin: 0; }
+  .plan li { margin-bottom: 12px; }
+  .plan li b { color: var(--ink); }
+  .plan .why { color: var(--muted); font-size: 13px; }
+
+  /* section-by-section writing guide */
+  .sec {
+    border: 1px solid var(--line); border-left: 4px solid var(--brand);
+    border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; background: #fcfdff;
+  }
+  .sec .head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .sec .name { font-weight: 700; font-size: 15px; }
+  .sec .alloc { font-size: 12px; color: var(--brand); background: var(--brand-soft); padding: 2px 9px; border-radius: 999px; font-weight: 600; white-space: nowrap; }
+  .sec .do { margin: 8px 0 0; padding-left: 18px; }
+  .sec .do li { margin-bottom: 5px; font-size: 14px; }
+  .filebox {
+    border: 1.5px dashed var(--line); border-radius: 10px; padding: 12px 14px;
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top: 6px; background:#fafbfd;
+  }
+  .filebox small { color: var(--muted); }
+  #fileList { font-size: 13px; color: var(--good); margin-top: 6px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .chip { background: var(--brand-soft); color: var(--brand); font-size: 12px; padding: 3px 9px; border-radius: 999px; font-weight: 600; }
+  .empty { color: var(--muted); font-size: 14px; padding: 8px 0; }
+
+  /* editor */
+  .editor {
+    min-height: 360px; border: 1px solid var(--line); border-radius: 10px;
+    padding: 16px; background: #fff; font-size: 15px; line-height: 1.7;
+    overflow-y: auto;
+  }
+  .editor:focus { outline: 2px solid var(--brand-soft); border-color: var(--brand); }
+  .editor p { margin: 0 0 12px; }
+  .meta { display: flex; gap: 16px; color: var(--muted); font-size: 13px; margin: 10px 2px; }
+
+  /* mode tabs */
+  .tabs { display:flex; gap:6px; margin-bottom: 12px; }
+  .tab {
+    border:1px solid var(--line); background:#fff; color:var(--muted);
+    padding:7px 14px; border-radius:9px; font:inherit; font-weight:600; font-size:13px; cursor:pointer;
+  }
+  .tab.active { background: var(--brand); color:#fff; border-color: var(--brand); }
+
+  /* code editor + console */
+  .code-editor {
+    width:100%; min-height: 300px; border:1px solid var(--line); border-radius:10px;
+    padding:14px; background:#0f172a; color:#e2e8f0; font-size:13.5px; line-height:1.6;
+    font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace; tab-size:4; resize:vertical; white-space:pre;
+  }
+  .code-editor:focus { outline:2px solid #1e3a8a; border-color: var(--brand); }
+  .console {
+    margin-top:12px; background:#0b1120; color:#cbd5e1; border:1px solid var(--line);
+    border-radius:10px; padding:12px 14px; font-family:"SF Mono",Menlo,Consolas,monospace;
+    font-size:13px; line-height:1.55; white-space:pre-wrap; min-height:60px; max-height:240px; overflow:auto;
+  }
+  .console .ok { color:#4ade80; }
+  .console .err { color:#f87171; }
+  .console .sys { color:#64748b; }
+
+  /* fix report + error decoder output */
+  .report {
+    margin-top:10px; border:1px solid var(--line); border-radius:10px; padding:12px 14px;
+    background:#f0fdf4; font-size:13.5px;
+  }
+  .report.none { background:#f8fafc; }
+  .report b { color: var(--ink); }
+  .report ul { margin:6px 0 0; padding-left:18px; }
+  .report li { margin-bottom:4px; }
+  .report.error { background:#fff7ed; border-color:#fed7aa; }
+  .report code, .sec code, .plan code {
+    background:#eef2ff; color:#3730a3; padding:1px 5px; border-radius:5px;
+    font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;
+  }
+
+  /* coach panel */
+  .score-ring { display:flex; align-items:center; gap:14px; margin-bottom: 8px; }
+  .score-num { font-size: 34px; font-weight: 800; }
+  .score-label { font-size: 13px; color: var(--muted); }
+  .check { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-top: 1px solid var(--line); }
+  .check:first-child { border-top: none; }
+  .dot { width: 18px; height: 18px; border-radius: 50%; flex: none; margin-top: 2px; display:grid; place-items:center; color:#fff; font-size: 11px; font-weight:700;}
+  .dot.good { background: var(--good); }
+  .dot.warn { background: var(--warn); }
+  .dot.bad { background: var(--bad); }
+  .check .t { font-weight: 600; font-size: 14px; }
+  .check .d { color: var(--muted); font-size: 13px; }
+  .tips li { margin-bottom: 8px; font-size: 13.5px; }
+  .tips li.good { color: var(--good); }
+  .sticky { position: sticky; top: 78px; }
+  footer { text-align: center; color: var(--muted); font-size: 12px; padding: 24px; }
+  .support {
+    max-width: 1400px; margin: 0 auto; padding: 0 24px;
+  }
+  .support .card { text-align: left; }
+  .reco { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+  .reco a {
+    display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+    border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px;
+    color: var(--ink); font-size: 13.5px; font-weight: 600; background: #fff;
+  }
+  .reco a:hover { background: #f8fafc; border-color: var(--brand); }
+  .reco a .tag { font-weight: 500; color: var(--muted); font-size: 12px; }
+  .support .ko { background: var(--brand); color:#fff; border-color: var(--brand); }
+  .support .ko:hover { background:#1d4ed8; }
+  .support .disc { color: var(--muted); font-size: 12px; margin-top: 10px; }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="logo">✓</span> Assignment Coach</div>
+  <div class="tagline">Learn to do it yourself — faster and better</div>
+</header>
+
+<div class="honor">🎓 <b>Honor code:</b> Your schoolwork should be your own. This tool coaches you and checks your writing — it never writes the assignment for you. Use it to learn, not to cheat.</div>
+
+<div class="wrap">
+
+  <!-- STEP 1: PLAN -->
+  <div class="card">
+    <h2>1 · Build your step-by-step plan</h2>
+    <p class="empty">Tell the coach about your assignment and paste any lecture slides or notes. It will give you a plan for how to do it yourself — not the answer.</p>
+    <div class="row">
+      <div>
+        <label>Assignment prompt / question</label>
+        <input type="text" id="prompt" placeholder="e.g. Discuss the causes of the 2008 financial crisis (1500 words)" />
+      </div>
+      <div>
+        <label>Subject / topic</label>
+        <input type="text" id="topic" placeholder="e.g. Macroeconomics" />
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label>Assignment type</label>
+        <select id="atype">
+          <option value="auto">Auto-detect</option>
+          <option value="essay">Essay / argumentative</option>
+          <option value="report">Report</option>
+          <option value="datareport">Data analysis / BI report</option>
+          <option value="legal">Legal problem (IRAC)</option>
+          <option value="finplan">Financial plan / advisory</option>
+          <option value="lab">Lab / practical report</option>
+          <option value="case">Case study</option>
+          <option value="reflective">Reflective journal</option>
+          <option value="litreview">Literature review</option>
+          <option value="code">Coding / programming</option>
+        </select>
+      </div>
+      <div>
+        <label>Citation style</label>
+        <select id="cstyle">
+          <option value="auto" selected>Auto-detect (recommended)</option>
+          <option value="apa">APA 7</option>
+          <option value="mla">MLA 9</option>
+          <option value="harvard">Harvard</option>
+          <option value="ieee">IEEE</option>
+          <option value="chicago">Chicago</option>
+          <option value="none">None</option>
+        </select>
+      </div>
+    </div>
+    <label>Your source material — lecture slides, notes, readings</label>
+    <div class="filebox">
+      <button class="btn secondary small" onclick="document.getElementById('fileInput').click()">📎 Upload files</button>
+      <input type="file" id="fileInput" accept=".txt,.md,.csv,.pdf,.docx,.pptx,.mp3,.wav,.m4a,.ogg,.webm,.mp4,.mov,.aac,.flac,audio/*,video/*" multiple style="display:none" onchange="handleFiles(event)" />
+      <small>Upload <b>PDF, Word (.docx), PowerPoint (.pptx), text, or a recording</b> (audio/video). I'll pull out the text, summarise it, and tell you what to do. Files are processed on your device.</small>
+    </div>
+    <div id="fileList"></div>
+    <textarea id="material" rows="5" style="margin-top:8px" placeholder="Paste your lecture slides text and notes here. The coach reads this to tell you what the assignment is about and what to put in each section."></textarea>
+    <div class="btnbar">
+      <button class="btn" onclick="buildPlan()">Tell me what to do →</button>
+      <button class="btn secondary small" onclick="loadSample()">Load an example</button>
+    </div>
+  </div>
+
+  <div class="card plan" id="planCard" style="display:none">
+    <h2>📋 What this assignment is really asking</h2>
+    <div id="briefWrap"></div>
+    <div id="summaryWrap"></div>
+    <div id="conceptsWrap"></div>
+    <h3 style="margin-top:18px">How to approach it — step by step</h3>
+    <ol id="planList"></ol>
+  </div>
+
+  <div class="card plan" id="guideCard" style="display:none">
+    <h2>🧭 Your writing guide — what to put in each section</h2>
+    <p class="empty">Work through each section below. The coach tells you what to cover and how to do it — then <b>you</b> write it in your own words in section 2.</p>
+    <div id="guideList"></div>
+  </div>
+
+  <!-- STEP 2 + 3: WRITE + COACH -->
+  <div class="grid">
+    <div class="card">
+      <h2>2 · Write it yourself</h2>
+      <div class="tabs">
+        <button class="tab active" id="tabEssay" onclick="setMode('essay')">✍️ Essay / report</button>
+        <button class="tab" id="tabCode" onclick="setMode('code')">🐍 Python code</button>
+      </div>
+
+      <!-- ESSAY MODE -->
+      <div id="essayMode">
+        <p class="empty">Type your own assignment here. The coach on the right checks it live as you write.</p>
+        <div class="editor" id="editor" contenteditable="true" spellcheck="true"><p>Start writing your assignment here…</p></div>
+        <div class="meta">
+          <span id="words">0 words</span>
+          <span id="readtime">0 min read</span>
+          <span id="sentences">0 sentences</span>
+        </div>
+        <div class="btnbar">
+          <button class="btn small" onclick="tidyEssay()">✨ Fix basics (spelling & spacing)</button>
+        </div>
+        <div id="fixReport2"></div>
+        <h3>Download your work</h3>
+        <div class="btnbar">
+          <button class="btn small" onclick="downloadDocx()">⬇ Word (.doc)</button>
+          <button class="btn secondary small" onclick="downloadPdf()">⬇ PDF (print)</button>
+          <button class="btn secondary small" onclick="downloadTxt()">⬇ Text (.txt)</button>
+        </div>
+      </div>
+
+      <!-- CODE MODE -->
+      <div id="codeMode" style="display:none">
+        <div class="row" style="margin-bottom:10px">
+          <div>
+            <label style="margin-top:0">Language</label>
+            <select id="lang" onchange="changeLang()">
+              <option value="python">Python</option>
+              <option value="cpp">C++</option>
+              <option value="java">Java</option>
+              <option value="javascript">JavaScript</option>
+            </select>
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button class="btn secondary small" style="width:100%" onclick="loadTemplate()">↺ Reset to starter template</button>
+          </div>
+        </div>
+        <p class="empty">Write your code, hit <b>Run</b> to execute it, or <b>Auto-fix</b> to repair common mistakes (it shows you what it changed so you learn). You fix the logic yourself.</p>
+        <textarea class="code-editor" id="codeEditor" spellcheck="false"></textarea>
+        <div class="meta">
+          <span id="codeLines">0 lines</span>
+          <span id="codeStatus" class="sys">Not run yet</span>
+        </div>
+        <div class="btnbar">
+          <button class="btn small" id="runBtn" onclick="run()">▶ Run code</button>
+          <button class="btn small" onclick="autoFix()">✨ Auto-fix mistakes</button>
+          <button class="btn secondary small" onclick="insertCoverSheet()">📋 Insert cover sheet</button>
+          <button class="btn secondary small" id="dlCode" onclick="downloadCode()">⬇ Download .py</button>
+          <button class="btn secondary small" onclick="document.getElementById('console').innerHTML=''">Clear output</button>
+        </div>
+        <div id="fixReport"></div>
+        <h3>Output</h3>
+        <div class="console" id="console"><span class="sys">Output and errors will appear here when you run your code.</span></div>
+        <p class="why" id="runNote" style="font-size:12px;margin-top:8px"></p>
+
+        <h3>🔎 Explain an error</h3>
+        <p class="empty" style="margin-top:0">Got an error somewhere else (your IDE, the lab machine)? Paste it here and I'll decode what it means and how to fix it.</p>
+        <textarea id="errBox" rows="3" placeholder="Paste the full error message / traceback here…"></textarea>
+        <div class="btnbar"><button class="btn secondary small" onclick="decodeError()">Decode this error</button></div>
+        <div id="errOut"></div>
+      </div>
+    </div>
+
+    <div class="card sticky">
+      <h2>3 · Live coach feedback</h2>
+      <div class="score-ring">
+        <div class="score-num" id="scoreNum">—</div>
+        <div>
+          <div class="score-label" id="scoreWord">Start writing to get scored</div>
+          <div class="score-label">Quality checklist updates as you type</div>
+        </div>
+      </div>
+      <div id="checks"></div>
+      <h3>How to make it better</h3>
+      <ul class="tips" id="tips"><li class="empty" style="list-style:none">Tips will appear here as you write.</li></ul>
+    </div>
+  </div>
+
+</div>
+
+<div class="support">
+  <div class="card">
+    <h2 style="margin-bottom:4px">🧰 Recommended study tools</h2>
+    <p class="empty" style="margin-top:0">Hand-picked tools that pair well with the Coach. <!-- MONETISATION: replace the href values with your own affiliate links (Grammarly, Notion, Perlego, Coursera, Quillbot all have free affiliate programs). You earn a commission when someone signs up — costs you $0. --></p>
+    <div class="reco">
+      <a href="#REPLACE-WITH-AFFILIATE-LINK" target="_blank" rel="noopener sponsored">📝 Grammarly <span class="tag">grammar & clarity</span></a>
+      <a href="#REPLACE-WITH-AFFILIATE-LINK" target="_blank" rel="noopener sponsored">📚 Perlego <span class="tag">online textbooks</span></a>
+      <a href="#REPLACE-WITH-AFFILIATE-LINK" target="_blank" rel="noopener sponsored">🗂️ Notion <span class="tag">notes & planning</span></a>
+      <a href="#REPLACE-WITH-AFFILIATE-LINK" target="_blank" rel="noopener sponsored">🎓 Coursera <span class="tag">skill courses</span></a>
+    </div>
+    <p class="disc">Some links may be affiliate links — if you sign up, the Coach may earn a small commission at no extra cost to you. This keeps the tool free.</p>
+    <div class="reco" style="margin-top:14px">
+      <a class="ko" href="#REPLACE-WITH-YOUR-KOFI-OR-BUYMEACOFFEE-LINK" target="_blank" rel="noopener">☕ Support this free tool</a>
+      <a href="#REPLACE-WITH-SHARE-LINK" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href);return false;">🔗 Share with a classmate</a>
+    </div>
+  </div>
+</div>
+
+<!-- MONETISATION: paste your Google AdSense / Ezoic ad <script> here once you have traffic and approval (free to join). -->
+
+<footer>
+  Assignment Coach · a study tool that teaches, not cheats. Works in your browser — your files never leave your device.
+</footer>
+
+<script>
+/* ----------------------------------------------------------
+   NOTE: This standalone version uses smart offline heuristics
+   for the plan + live feedback (no API, no cost, fully private).
+   >>> TODO INTEGRATION POINT <<<
+   To upgrade to true AI coaching later, replace buildPlan()'s
+   plan text and analyze()'s tips with calls to an LLM endpoint
+   (e.g. Claude). The UI is already structured for it.
+---------------------------------------------------------- */
+
+const STOP = new Set("the a an and or but of to in on for with at by from as is are was were be been being this that these those it its their our your his her they we you i he she them us not no nor so if then than into about over under can will would could should may might must do does did have has had which who whom whose what when where why how".split(" "));
+
+function extractConcepts(text, max=8){
+  if(!text) return [];
+  const freq = {};
+  // capture multi-word capitalized phrases first
+  const phrases = text.match(/\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,2})\b/g) || [];
+  phrases.forEach(p => { const k=p.trim(); freq[k]=(freq[k]||0)+3; });
+  // then significant single words
+  (text.toLowerCase().match(/[a-z][a-z\-]{4,}/g) || []).forEach(w=>{
+    if(!STOP.has(w)) freq[w]=(freq[w]||0)+1;
+  });
+  return Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,max).map(e=>e[0]);
+}
+
+function targetWords(prompt){
+  const m = (prompt||"").match(/(\d{2,5})\s*(?:words|word)/i);
+  return m ? parseInt(m[1],10) : 0;
+}
+
+/* ---- read uploaded files: PDF / Word / PowerPoint / text / recordings ---- */
+const AUDIO_EXT = ['mp3','wav','m4a','ogg','webm','mp4','mov','aac','flac'];
+const LIBS = {
+  pdfjs:   { url:'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js', check:()=>typeof pdfjsLib!=='undefined',
+             after:()=>{ pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js'; } },
+  mammoth: { url:'https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js', check:()=>typeof mammoth!=='undefined' },
+  jszip:   { url:'https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js',        check:()=>typeof JSZip!=='undefined' }
+};
+const libPromises = {};
+function ensureLib(name){
+  if(libPromises[name]) return libPromises[name];
+  const L = LIBS[name];
+  libPromises[name] = (async ()=>{
+    if(!L.check()) await loadScript(L.url);
+    if(L.after) L.after();
+    if(!L.check()) throw new Error('library '+name+' did not load');
+  })();
+  return libPromises[name];
+}
+function wordCount(t){ const m=(t||'').trim().match(/\S+/g); return m?m.length:0; }
+function appendMaterial(name, text){
+  const ta = document.getElementById('material');
+  ta.value += (ta.value ? '\n\n' : '') + '— ' + name + ' —\n' + (text||'').trim();
+}
+function decodeEntities(s){
+  return (s||'').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')
+    .replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&#(\d+);/g,(m,n)=>String.fromCharCode(+n));
+}
+
+async function handleFiles(e){
+  const files = [...e.target.files];
+  if(!files.length) return;
+  const status = document.getElementById('fileList');
+  for(const f of files){
+    const ext = (f.name.split('.').pop()||'').toLowerCase();
+    const line = document.createElement('div');
+    line.style.fontSize = '13px'; line.style.color = 'var(--muted)'; line.style.marginTop = '4px';
+    line.textContent = '⏳ Reading ' + f.name + '…';
+    status.appendChild(line);
+    try{
+      let text = '';
+      if(['txt','md','csv'].includes(ext) || (f.type && f.type.startsWith('text/'))) text = await f.text();
+      else if(ext === 'pdf')  text = await extractPdf(f);
+      else if(ext === 'docx') text = await extractDocx(f);
+      else if(ext === 'pptx') text = await extractPptx(f);
+      else if(AUDIO_EXT.includes(ext) || (f.type && (f.type.startsWith('audio/')||f.type.startsWith('video/'))))
+                              text = await transcribeAudio(f, line);
+      else if(ext === 'doc' || ext === 'ppt')
+        throw new Error('old ' + ext.toUpperCase() + ' format isn\'t supported — save it as .' + ext + 'x, or paste the text');
+      else throw new Error('unsupported file type — paste the text instead');
+
+      if(!text || !text.trim()) throw new Error('no text found (it may be a scanned image — paste the text instead)');
+      appendMaterial(f.name, text);
+      line.style.color = 'var(--good)';
+      line.textContent = '✓ ' + f.name + ' — added ' + wordCount(text) + ' words';
+    }catch(err){
+      line.style.color = 'var(--warn)';
+      line.textContent = '⚠ ' + f.name + ': ' + (err.message || err);
+    }
+  }
+  e.target.value = ''; // let the same file be re-uploaded
+}
+
+async function extractPdf(file){
+  await ensureLib('pdfjs');
+  const pdf = await pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise;
+  const out = [];
+  for(let p=1; p<=pdf.numPages; p++){
+    const page = await pdf.getPage(p);
+    const c = await page.getTextContent();
+    out.push(c.items.map(i=>i.str).join(' '));
+  }
+  return out.join('\n');
+}
+async function extractDocx(file){
+  await ensureLib('mammoth');
+  const r = await mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() });
+  return r.value || '';
+}
+async function extractPptx(file){
+  await ensureLib('jszip');
+  const zip = await JSZip.loadAsync(await file.arrayBuffer());
+  const names = Object.keys(zip.files)
+    .filter(n=>/ppt\/slides\/slide\d+\.xml$/.test(n))
+    .sort((a,b)=> (+a.match(/slide(\d+)/)[1]) - (+b.match(/slide(\d+)/)[1]));
+  const out = [];
+  for(const n of names){
+    const xml = await zip.files[n].async('string');
+    const runs = xml.match(/<a:t[^>]*>([\s\S]*?)<\/a:t>/g) || [];
+    out.push(decodeEntities(runs.map(t=>t.replace(/<[^>]+>/g,'')).join(' ')));
+  }
+  return out.join('\n');
+}
+/* experimental free in-browser transcription (Whisper via transformers.js) */
+let transcriber = null;
+async function transcribeAudio(file, line){
+  line.style.color = 'var(--warn)';
+  line.textContent = '🎙 Transcribing ' + file.name + ' — experimental: downloads a small speech model the first time (~40MB) and can be slow. Best for short clips…';
+  const T = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2');
+  if(!transcriber) transcriber = await T.pipeline('automatic-speech-recognition', 'Xenova/whisper-tiny.en');
+  const url = URL.createObjectURL(file);
+  try{
+    const res = await transcriber(url, { chunk_length_s: 30, stride_length_s: 5 });
+    return res && res.text ? res.text : '';
+  } finally { URL.revokeObjectURL(url); }
+}
+
+/* extractive summary (offline) — picks the most representative sentences */
+function summarize(text, maxSentences=5){
+  text = (text||'').replace(/\s+/g,' ').trim();
+  if(!text) return '';
+  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+  if(sentences.length <= maxSentences) return sentences.map(s=>s.trim()).join(' ');
+  const freq = {};
+  (text.toLowerCase().match(/[a-z][a-z\-]{3,}/g) || []).forEach(w=>{ if(!STOP.has(w)) freq[w]=(freq[w]||0)+1; });
+  return sentences.map((s,i)=>{
+      const words = s.toLowerCase().match(/[a-z][a-z\-]{3,}/g) || [];
+      let sc = words.reduce((a,w)=>a+(freq[w]||0),0) / (words.length||1);
+      if(i===0) sc *= 1.3;
+      return { s:s.trim(), sc, i };
+    })
+    .sort((a,b)=>b.sc-a.sc).slice(0, maxSentences)
+    .sort((a,b)=>a.i-b.i).map(o=>o.s).join(' ');
+}
+
+/* describe what the assignment is asking, in plain English */
+const COMMANDS = {
+  discuss:"Discuss = present several sides/factors and weigh them. Don't just list — examine and reach a balanced view.",
+  analyse:"Analyse = break the topic into parts and examine how they connect and why they matter.",
+  analyze:"Analyse = break the topic into parts and examine how they connect and why they matter.",
+  evaluate:"Evaluate = judge the value/strength of something using evidence, and reach a supported verdict.",
+  compare:"Compare = identify similarities AND differences, then say what they tell us.",
+  explain:"Explain = make the topic clear, showing how and why it works, with examples.",
+  describe:"Describe = give a detailed, ordered account of the main features.",
+  assess:"Assess = weigh the importance/strength of factors and reach a judgement.",
+  critically:"Critically = question assumptions, weigh strengths and weaknesses, don't take things at face value.",
+  argue:"Argue = take a clear position and defend it with evidence throughout."
+};
+function describeAssignment(prompt, topicTxt, tw){
+  const found = Object.keys(COMMANDS).filter(c=>new RegExp("\\b"+c,"i").test(prompt||""));
+  const cmd = found.length ? found.map(c=>COMMANDS[c]).join(" ") : "Read the prompt carefully and identify the command word (discuss, analyse, evaluate…) — it tells you the type of answer expected.";
+  return `<div class="sec"><div class="name">In plain English</div>`+
+    `<p style="margin:8px 0 0">You're being asked to write about <b>${esc(topicTxt)}</b>${tw?` in about <b>${tw} words</b>`:''}. ${esc(cmd)}</p>`+
+    `<p class="why" style="margin-top:8px">Your job is to show you understand the topic <b>and</b> can use it to answer this specific question — not just repeat your notes.</p></div>`;
+}
+
+function buildPlan(){
+  const prompt = val('prompt'), topic = val('topic'), material = val('material');
+  if(!prompt && !topic && !material){ alert("Add at least the assignment prompt or your notes first."); return; }
+  const concepts = extractConcepts(material);
+  const tw = targetWords(prompt);
+  const topicTxt = topic || "this topic";
+  const atypeSel = (document.getElementById('atype')||{}).value || 'auto';
+  const isCode = atypeSel === 'code' || (atypeSel === 'auto' &&
+    /\b(python|c\+\+|cpp|java|javascript|node|\.py|code|program|programming|coding|script|algorithm|def |function)\b/i.test(prompt+" "+topic+" "+material.slice(0,200)));
+
+  document.getElementById('briefWrap').innerHTML = isCode ? describeCode(prompt, topicTxt, tw) : describeAssignment(prompt, topicTxt, tw);
+
+  const sumWrap = document.getElementById('summaryWrap');
+  if(wordCount(material) >= 40){
+    sumWrap.innerHTML = '<h3>Summary of your material</h3><div class="sec"><p style="margin:0">' +
+      esc(summarize(material, 5)) +
+      '</p><p class="why" style="margin-top:8px">Auto-summary of what you uploaded/pasted — skim it to check it caught the key points, then follow the plan below.</p></div>';
+  } else { sumWrap.innerHTML = ''; }
+
+  const cWrap = document.getElementById('conceptsWrap');
+  if(concepts.length){
+    cWrap.innerHTML = '<h3>Key concepts to research (pulled from your material)</h3><div class="chips">'+
+      concepts.map(c=>`<span class="chip">${esc(c)}</span>`).join('')+'</div>';
+  } else {
+    cWrap.innerHTML = '<p class="empty">Paste your notes above and regenerate to auto-extract key concepts to research.</p>';
+  }
+
+  const steps = isCode ? [
+    ["Understand the exact task",
+     `Re-read "${esc(prompt||'the prompt')}". Write down the required <b>inputs</b>, the expected <b>output</b>, and 1–2 example input→output pairs so you know when it's correct.`],
+    ["Plan before you code",
+     `Write the steps as comments / pseudocode first. Decide what <code>functions</code> you need and what each one takes in and returns.`],
+    ["Set up your .py file",
+     `Imports at the top → your functions → a <code>main()</code> called under <code>if __name__ == "__main__":</code>. This is the structure markers expect.`],
+    ["Build one piece at a time",
+     `Write one small function, then click ▶ Run to test it. Don't write the whole thing and run once — small steps catch bugs early.`],
+    ["Handle bad input & edge cases",
+     `Wrap risky bits (like <code>int(input())</code>) in try/except. Think about empty input, zero, and negative numbers.`],
+    ["Test against your examples",
+     `Run it with the example cases from step 1 and check the output matches exactly.`],
+    ["Comment & tidy up",
+     `Add comments on tricky parts, use clear variable names, and delete leftover debug prints.`],
+    ["Confirm it runs, then submit",
+     `Run the whole file from a clean state — it must run with <b>no errors</b>. Then click <b>Download .py</b> and submit that file.`]
+  ] : [
+    ["Decode exactly what's being asked",
+     `Underline the command word in "${esc(prompt||'your prompt')}" (discuss / compare / analyse / evaluate?). Each demands a different structure. Rewrite the question in your own words to be sure you understand it.`],
+    ["Pin down scope & requirements",
+     `${tw?`You have a ~${tw}-word target — roughly ${Math.round(tw/250)} pages. `:''}Note the format, citation style, and deadline. List what a top answer must include before you write a single line.`],
+    ["Research the key concepts",
+     `Look up the concepts above for ${topicTxt}. For each: get a clear definition, one real example, and one source you can cite. Take notes in your own words — never copy-paste.`],
+    ["Form your own position / thesis",
+     `Decide what YOU will argue or conclude. Write it as one sentence. Everything else exists to support this. A clear thesis is the #1 thing markers reward.`],
+    ["Outline before writing",
+     `Intro (hook + thesis + roadmap) → 3–5 body sections (one idea each, with evidence) → conclusion (restate + significance). Put your concepts/evidence under each section now.`],
+    ["Draft section by section",
+     `Write fast and ugly first — don't edit yet. Each body paragraph: point → evidence → explanation of why it matters → link back to the thesis.`],
+    ["Add and format citations",
+     `Cite every fact, stat, or idea that isn't yours. Build your reference list as you go so you don't lose sources. Match the required style exactly.`],
+    ["Revise with fresh eyes",
+     `Leave it, then return. Check: Does it answer the prompt? Is each paragraph one clear idea? Cut filler. Read it aloud to catch clunky sentences. Then paste it below and let the coach check it.`]
+  ];
+  document.getElementById('planList').innerHTML = steps.map(s=>
+    `<li><b>${s[0]}</b><div class="why">${s[1]}</div></li>`).join('');
+  document.getElementById('planCard').style.display = 'block';
+
+  if(isCode){
+    const blob = (prompt + " " + topic).toLowerCase();
+    const L = /c\+\+|cpp/.test(blob) ? 'cpp'
+            : /\bjava\b(?!script)/.test(blob) ? 'java'
+            : /javascript|node|\.js\b/.test(blob) ? 'javascript'
+            : 'python';
+    document.getElementById('lang').value = L;
+    changeLang();
+    setMode('code');
+    buildCodeGuide(prompt, topicTxt);
+  } else {
+    buildSectionGuide(concepts, topicTxt, tw, prompt);
+  }
+
+  document.getElementById('planCard').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function describeCode(prompt, topicTxt, tw){
+  return `<div class="sec"><div class="name">In plain English</div>`+
+    `<p style="margin:8px 0 0">This is a <b>coding task</b>: write a Python program (a <b>.py</b> file) that actually runs and does what the prompt asks. You're marked on whether it <b>runs without errors</b>, gives the <b>correct output</b>, and is <b>readable</b> (functions, comments, clear names).</p>`+
+    `<p class="why" style="margin-top:8px">I've switched you to the <b>🐍 Python code</b> tab below. Build it in small pieces and click ▶ Run often — I'll check it and explain any errors.</p></div>`;
+}
+
+function buildCodeGuide(prompt, topicTxt){
+  const secs = [
+    section("1 · Understand the problem", '', [
+      `Write down the exact <b>inputs</b> (what the program reads) and <b>outputs</b> (what it must print/return).`,
+      `Write 1–2 example runs: "given THIS input → it should produce THIS output."`,
+      `You can't code it until you can describe it.`
+    ]),
+    section("2 · Pseudocode / plan", '', [
+      `In comments, list the steps in plain English before any real code.`,
+      `Decide which <code>functions</code> you need and what each takes in / returns.`
+    ]),
+    section("3 · File skeleton", '', [
+      `<code>imports</code> at the top.`,
+      `Then your <code>def</code> functions, each doing one job.`,
+      `Then <code>def main():</code> that ties it together.`,
+      `Finally <code>if __name__ == "__main__":  main()</code> at the bottom.`
+    ]),
+    section("4 · Implement & run repeatedly", '', [
+      `Fill in one function, then hit ▶ Run to test it works.`,
+      `Use <code>print()</code> to check values while building, then remove those later.`
+    ]),
+    section("5 · Edge cases & errors", '', [
+      `Guard input conversions: <code>try: n = int(input())  except ValueError: ...</code>`,
+      `Test empty input, 0, and negative numbers — don't let it crash.`
+    ]),
+    section("6 · Final check before submitting", '', [
+      `Run the whole file from the top — it must run with <b>no errors</b>.`,
+      `Confirm output matches your step-1 examples.`,
+      `<b>Download .py</b> and submit that exact file.`
+    ])
+  ];
+
+  const wantsClasses = /\bclass(es)?\b|object[- ]?orient|\boop\b|inheritance|polymorph|design with classes/i.test((prompt||'') + ' ' + (topicTxt||''));
+  if(wantsClasses){
+    secs.push(section("Design with classes (what this task wants)", '', [
+      `Define a <code>class</code> for each "thing", and give each class <b>one job</b> (e.g. one for the core logic, one for file/input-output, one for the menu/UI).`,
+      `Use <b>inheritance</b>: a base class with a shared method, and subclasses that override it for each variation.`,
+      `Give each class an <code>__init__</code> and clearly-named methods.`,
+      `Create the objects and call their methods from a <code>main()</code>, run under <code>if __name__ == "__main__":</code>.`
+    ]));
+  }
+  secs.push(section("🎯 Aim for HD — what markers actually reward", '', [
+    `<b>Correctness (60%):</b> handle <i>every</i> input — wrap risky conversions in <code>try/except</code>, validate menu choices, and never let it crash.`,
+    `<b>Documentation (10%):</b> comment the tricky parts and <i>why</i> — adequate, not a comment on every line.`,
+    `<b>Readability (10%):</b> descriptive names, consistent structure, logic split into functions/classes.`,
+    `<b>Meeting specs (10%):</b> include the cover sheet + a one-line description, and follow the brief exactly.`,
+    `<b>Efficiency (10%):</b> avoid slow patterns — build strings with a list + <code>"".join()</code>, not <code>+=</code> inside a loop.`
+  ]));
+  secs.push(section("📋 Before you submit", '', [
+    `Put a <b>cover sheet</b> at the very top (name, student ID, unit code, semester, year, task/week) — click "Insert cover sheet" in the editor.`,
+    `Run everything top-to-bottom — it must run with <b>no errors</b>.`,
+    `If your unit requires it, submit <b>both</b> files: your <code>.py</code>/<code>.ipynb</code> AND an HTML export that shows your name & ID.`
+  ]));
+
+  document.getElementById('guideList').innerHTML = secs.join('');
+  document.getElementById('guideCard').style.display = 'block';
+}
+
+/* resolve the assignment type from the dropdown (or auto-detect from the prompt) */
+function atypeResolved(prompt){
+  const sel = (document.getElementById('atype')||{}).value || 'auto';
+  if(sel !== 'auto') return sel;
+  const p = (prompt||'').toLowerCase();
+  if(/reflect|journal|diary|my experience|gibbs/.test(p)) return 'reflective';
+  if(/\birac\b|legal issue|statute|case law|consumer guarantee|\bacl\b|hypothetical fact|law for commerce|advise .*(his|her|their) rights/.test(p)) return 'legal';
+  if(/financial plan|personal financial|cash ?flow|asset allocation|superannuation|risk profile|insurance analysis|financial goals/.test(p)) return 'finplan';
+  if(/\blab\b|experiment|practical|hypothesis|method section/.test(p)) return 'lab';
+  if(/case study|the case|scenario/.test(p)) return 'case';
+  if(/literature review|review the literature/.test(p)) return 'litreview';
+  if(/power\s*bi|\.pbix|tableau|dashboard|data analysis|business intelligence|\bbi\b|data cleansing|data warehous|visualis|visualiz/.test(p)) return 'datareport';
+  if(/\breport\b/.test(p)) return 'report';
+  return 'essay';
+}
+/* auto-detect citation style from the brief, or infer from the subject */
+function detectCitationStyle(prompt, topic, material){
+  const t = (prompt + ' ' + topic + ' ' + (material||'').slice(0,400)).toLowerCase();
+  if(/\bapa\b/.test(t)) return 'apa';
+  if(/\bmla\b/.test(t)) return 'mla';
+  if(/\bharvard\b/.test(t)) return 'harvard';
+  if(/\bieee\b/.test(t)) return 'ieee';
+  if(/\bchicago\b|\bturabian\b/.test(t)) return 'chicago';
+  if(/\bvancouver\b/.test(t)) return 'ieee';
+  // infer from subject area
+  if(/engineer|computer|software|electr|programming|robotic|mechanic|telecom|data scien/.test(t)) return 'ieee';
+  if(/english|literatur|history|philosoph|\bart\b|language|media studies|cultural|humanit|religio|theolog|film/.test(t)) return 'mla';
+  if(/\blaw\b|legal|jurisprud/.test(t)) return 'chicago';
+  // sciences, business, health, social science, education → APA (the most common default)
+  return 'apa';
+}
+const CSTYLE_LABEL = { apa:'APA 7', mla:'MLA 9', harvard:'Harvard', ieee:'IEEE', chicago:'Chicago', none:'None' };
+function citationPoints(cstyle){
+  const ex = {
+    apa:     ['<b>In-text:</b> (Smith, 2020, p. 24)', '<b>Reference:</b> Smith, J. (2020). <i>Title of the work</i>. Publisher.'],
+    mla:     ['<b>In-text:</b> (Smith 24)', '<b>Works Cited:</b> Smith, John. <i>Title of the Work</i>. Publisher, 2020.'],
+    harvard: ['<b>In-text:</b> (Smith, 2020)', '<b>Reference:</b> Smith, J. (2020) <i>Title of the work</i>. Place: Publisher.'],
+    ieee:    ['<b>In-text:</b> [1]', '<b>Reference:</b> [1] J. Smith, <i>Title of the Work</i>. Publisher, 2020.'],
+    chicago: ['<b>In-text (note):</b> ¹ John Smith, <i>Title</i> (Place: Publisher, 2020), 24.', '<b>Bibliography:</b> Smith, John. <i>Title</i>. Place: Publisher, 2020.'],
+    none:    ['Check the brief for the required style, then apply it consistently.', 'Cite every fact, quote, or idea that isn\'t your own.']
+  };
+  const base = ['List every source you cited' + (cstyle==='ieee' ? ', in citation order' : ', alphabetically') + '.', 'Build this list as you write so you don\'t lose sources.'];
+  return (ex[cstyle] || ex.none).concat(base);
+}
+
+/* tell them exactly what to write in each section — structure adapts to assignment type */
+function buildSectionGuide(concepts, topicTxt, tw, prompt){
+  const atype  = atypeResolved(prompt);
+  let cstyle = (document.getElementById('cstyle')||{}).value || 'auto';
+  let cstyleAuto = false;
+  if(cstyle === 'auto'){ cstyle = detectCitationStyle(prompt, topicTxt, document.getElementById('material').value); cstyleAuto = true; }
+  const refLabel = (CSTYLE_LABEL[cstyle]||cstyle.toUpperCase()) + (cstyleAuto ? ' — auto-detected' : '');
+  const usable = concepts.length ? concepts.slice(0, Math.min(5, Math.max(3, concepts.length))) : [];
+  const bodyCount = usable.length || 3;
+  const introW = tw ? Math.round(tw*0.12) : 0;
+  const concW  = tw ? Math.round(tw*0.13) : 0;
+  const bodyW  = tw ? Math.round((tw - introW - concW) / Math.max(1, bodyCount)) : 0;
+  const a = w => w ? `~${w} words` : '';
+
+  const bodyFromConcepts = (verb) => usable.length
+    ? usable.map((c,i)=>section(`Body ${i+1}: ${cap(c)}`, a(bodyW), [
+        `<b>Point:</b> topic sentence introducing <b>${esc(cap(c))}</b> and how it links to the question.`,
+        `<b>${verb}:</b> ${verb.toLowerCase()} ${esc(cap(c))} in your own words.`,
+        `<b>Evidence:</b> a real example, fact, or source about ${esc(cap(c))} — and cite it.`,
+        `<b>Link:</b> connect it back to your overall answer.`
+      ])).join('')
+    : [1,2,3].map(i=>section(`Body paragraph ${i}`, a(bodyW), [
+        `Start with a topic sentence — one clear idea.`,
+        `Explain it, then back it with cited evidence.`,
+        `Link back to your thesis.`,
+        `Tip: paste your notes above and regenerate to auto-map each paragraph to a key concept.`
+      ])).join('');
+
+  let secs;
+  switch(atype){
+    case 'lab': secs = [
+      section('Title & Aim','',['State the experiment/task and its aim or hypothesis in one or two sentences.']),
+      section('Introduction / Background', a(introW), ['Give the theory behind the experiment and why it matters.','State your hypothesis clearly.']),
+      section('Method','',['Describe what you did, in past tense and passive voice — enough that someone could repeat it.','Report only — don\'t interpret here.']),
+      section('Results','',['Present your data: tables, graphs, calculations. State what you observed.','No interpretation yet.']),
+      section('Discussion', a(bodyW), ['Interpret the results: what do they mean? Did they match the hypothesis?','Explain sources of error and limitations.','Link back to the theory.']),
+      section('Conclusion', a(concW), ['State briefly what the experiment showed. No new data.'])
+    ].join(''); break;
+    case 'reflective': secs = [
+      section('Description','',['What happened? Briefly and objectively describe the experience/event.']),
+      section('Feelings & Reactions','',['What were you thinking and feeling? First person is expected here — be honest.']),
+      section('Analysis', a(bodyW), ['Why did it happen this way? Link your experience to course concepts'+(usable.length?' (e.g. '+usable.slice(0,3).map(c=>esc(cap(c))).join(', ')+')':'')+'.','Use a model (e.g. Gibbs\' reflective cycle) if your unit expects one.']),
+      section('What I learned','',['What sense do you make of it now? What would you do differently?']),
+      section('Action plan','',['Concrete steps for next time.'])
+    ].join(''); break;
+    case 'case': secs = [
+      section('Background / Context','',['Summarise the case: who, what, the situation. Keep it brief.']),
+      section('Problem identification','',['Clearly state the core problem(s) to be solved.']),
+      bodyFromConcepts('Analyse'),
+      section('Recommendations', a(bodyW), ['Propose solutions, justified by your analysis and theory.','Weigh the pros and cons of each.']),
+      section('Conclusion', a(concW), ['Restate the recommended course of action and the expected outcome.'])
+    ].join(''); break;
+    case 'report': secs = [
+      section('Introduction', a(introW), ['State the purpose and scope of the report and what it covers.']),
+      section('Background', a(bodyW), ['Give the context and theory the reader needs.']),
+      bodyFromConcepts('Analyse'),
+      section('Discussion / Findings', a(bodyW), ['What do the findings mean? Interpret — don\'t just list.']),
+      section('Recommendations','',['Actionable, justified recommendations.']),
+      section('Conclusion', a(concW), ['Summarise the key points. No new information.'])
+    ].join(''); break;
+    case 'litreview': secs = [
+      section('Introduction', a(introW), ['Define the topic, scope, and why this review matters. State your organising question.']),
+      bodyFromConcepts('Synthesise'),
+      section('Synthesis & gaps', a(bodyW), ['Compare what different sources say — agreements, disagreements, and gaps.','This is the heart of a lit review — don\'t summarise sources one-by-one.']),
+      section('Conclusion', a(concW), ['Summarise the state of knowledge and what future research is needed.'])
+    ].join(''); break;
+    case 'datareport': secs = [
+      section('Cover page + GenAI acknowledgement','',[
+        'Cover page: report title, unit code, your name(s) + student ID, and date. Add a table of contents with page numbers.',
+        'If you used AI (e.g. for grammar or feedback), add a short <b>GenAI acknowledgement</b> stating what you used it for and that the work and checking are your own — honest disclosure protects you.'
+      ]),
+      section('Introduction', a(introW), [
+        'State the business problem and the purpose of the report.',
+        'Describe the datasets and their scale (e.g. "93,181 transactions, 1,033 customers, $4.25M, Jan–Feb 2025").',
+        'Outline what the report covers (the exploration pages + the stakeholder dashboards).'
+      ]),
+      section('Data cleansing — Dataset Profile Summary','',[
+        'A summary table: total records, unique entities, date range, total value, etc.',
+        'Shows you understand the shape of the data before analysing it.'
+      ]),
+      section('Data cleansing — Methodology table','',[
+        'Table columns: <b>Variable | Data Type | Issue Identified | Remediation Technique | Assumption / Business Logic</b>.',
+        'One row per issue: format inconsistencies, wrong data types, future/illogical dates, out-of-range values, undefined columns…',
+        'For HD: justify each fix with business logic and state your assumptions — say <i>why</i>, not just what.'
+      ]),
+      section('Strategic analysis (one block per exploration dashboard)', a(bodyW), [
+        'State the dashboard\'s <b>thematic goal</b> — the key business question it answers.',
+        'Insert a <b>numbered, labelled figure</b> ("Figure 1: …") and refer to it in the text.',
+        'Give <b>3 insights</b>. Each = <b>what the figure shows → what it means → the strategic implication</b>.',
+        'Interpret, don\'t just describe — back every point with real numbers and %.'
+      ]),
+      section('Stakeholder dashboards (persona mapping)', a(bodyW), [
+        'One dashboard each for <b>Executive, Manager, and Business user</b>.',
+        'For each: name the audience, the decisions they make, and <b>why your design / visual hierarchy serves them</b>.',
+        'Give 3 <b>actionable</b> insights per dashboard tied to that persona\'s decisions.'
+      ]),
+      section('Strategic recommendations','',[
+        'Exactly <b>3</b> recommendations, each tied to a specific finding (cite the figure).',
+        'Make them <b>actionable</b> (concrete steps) and focused on long-term value & data integrity.',
+        'Support with cited sources where relevant.'
+      ]),
+      section('References (' + (CSTYLE_LABEL[cstyle]||cstyle.toUpperCase()) + (cstyleAuto?' — auto-detected':'') + ')','', citationPoints(cstyle)),
+      section('Appendices','',[
+        'Team contract, meeting minutes (dates, attendees, action items), and contribution form.',
+        'Excluded from the word count but marked under Teamwork & documentation.'
+      ])
+    ].join(''); break;
+    case 'legal': secs = [
+      section('How to structure each scenario — use IRAC headings','',[
+        'Answer each hypothetical scenario separately under the four IRAC headings below.',
+        'Write as a lawyer advising a client about their rights/obligations and the likely court outcome.',
+        'Don\'t repeat the question. Use formal full sentences (dot points only for listing legal elements).'
+      ]),
+      section('I — Issue','',[
+        'Identify the precise legal issue(s) the facts raise (e.g. "Was the consumer guarantee of acceptable quality breached?").',
+        'One issue per point, and identify <b>all</b> relevant issues — completeness is heavily marked.'
+      ]),
+      section('R — Rule','',[
+        'State the law precisely: the statutory provision (Act + section), any case authority, and the textbook page where it\'s taught.',
+        'Define the legal principle and break it into its <b>elements</b> — these are what you apply next.'
+      ]),
+      section('A — Application','',[
+        'Apply <b>each element</b> of the rule to the specific facts of the scenario.',
+        'Argue both sides where the facts are contestable, then say which is stronger.',
+        'This is the highest-value section — link law to facts; don\'t just restate the law.'
+      ]),
+      section('C — Conclusion','',[
+        'Give clear, justified advice: the client\'s rights/obligations and what is <b>more likely if it goes to court</b>.',
+        'It must follow from your Application — introduce no new law here.'
+      ]),
+      section('References (' + refLabel + ')','', citationPoints(cstyle))
+    ].join(''); break;
+    case 'finplan': secs = [
+      section('Title page + Executive Summary','',[
+        'Title page: title, your name + student ID, date, unit code. Add a table of contents with page numbers.',
+        'Executive Summary: a concise overview of your scenario, key goals, and main strategies/recommendations.'
+      ]),
+      section('Introduction & Personal Context', a(introW), [
+        'Outline your scenario — current, or projected 3–5 years after graduating.',
+        'State and <b>justify key assumptions</b> (salary from a real graduate job ad, living expenses, tax position) — realistic and internally consistent.'
+      ]),
+      section('Financial Goals','',[
+        'At least <b>3 goals</b> — specific, prioritised, and time-bound (SMART).'
+      ]),
+      section('Financial Position & Analysis', a(bodyW), [
+        'Prepare a <b>cash flow statement</b> and a <b>balance sheet</b> for your scenario.',
+        'Interpret them — your capacity to save and invest — don\'t just present the tables.'
+      ]),
+      section('Risk Profile & Asset Allocation', a(bodyW), [
+        'Include your risk-profile result (appendix) and explain how it shapes your investment choices.',
+        'Evaluate your asset allocation incl. superannuation — does it fit your goals, time horizon, and risk profile?'
+      ]),
+      section('Risk & Insurance Analysis','',[
+        'Identify key risks (income loss, illness, asset damage) and how you\'ll manage them, including the role of insurance.'
+      ]),
+      section('Three Integrated Strategies', a(bodyW), [
+        'Three realistic strategies, each clearly linked to your goals.',
+        'Justify each: expected benefits, risks, trade-offs, and how it interacts with the rest of the plan.',
+        '<b>Apply concepts to your own numbers</b> — describing general advice scores low.'
+      ]),
+      section('References (' + refLabel + ')','', citationPoints(cstyle)),
+      section('Appendices','',['Graduate job advertisement (justifies your income assumption) and your risk-profile assessment result.'])
+    ].join(''); break;
+    default: secs = [
+      section('Introduction', a(introW), [
+        `Open with a hook about <b>${esc(topicTxt)}</b> and why it matters.`,
+        `Name the points you'll cover.`,
+        `End with your <b>thesis</b> — your overall answer in one sentence. This is the most important sentence.`
+      ]),
+      bodyFromConcepts('Explain'),
+      (/\b(evaluate|critically|assess|discuss|argue)\b/i.test(prompt||'')
+        ? section('Counter-view / critical analysis', a(bodyW), ['Present the strongest opposing view fairly.','Weigh it against your evidence and show why your position holds.','This lifts a pass into a strong grade.']) : ''),
+      section('Conclusion', a(concW), ['Restate your thesis in fresh words.','Draw the points together and state the significance. No new info.'])
+    ].join('');
+  }
+
+  if(!['datareport','legal','finplan'].includes(atype))
+    secs += section('References (' + refLabel + ')', '', citationPoints(cstyle));
+
+  if(atype === 'datareport')
+    secs += section('🎯 Aim for HD — what markers reward (analytical report)', '', [
+      '<b>Data cleansing:</b> resolve <i>all</i> issues incl. complex ones; methodology table with assumptions + business logic for each fix.',
+      '<b>Analysis:</b> interpret trends (not describe); clear thematic goal per dashboard; 3 actionable insights each; numbered, labelled figures woven into the text.',
+      '<b>Stakeholders:</b> map Executive / Manager / Business-user personas and justify the design via visual hierarchy.',
+      '<b>Recommendations:</b> exactly 3 — data-driven, actionable, long-term — each linked to a finding.',
+      '<b>Polish:</b> APA7 citations, consistent corporate branding, and team documents (contract + minutes) submitted on time.'
+    ]);
+
+  if(atype === 'legal')
+    secs += section('🎯 Aim for HD — what markers reward (legal IRAC)', '', [
+      '<b>Issue:</b> identify ALL legal issues, expressed precisely.',
+      '<b>Rule:</b> cite the exact statute/section, case authority, and textbook page; define each element.',
+      '<b>Application:</b> apply every element to the facts, argue both sides, reach the stronger view.',
+      '<b>Conclusion:</b> clear, justified advice on the likely court outcome.',
+      '<b>Style:</b> IRAC headings, formal writing, APA7, word count at the top, student ID in the header.'
+    ]);
+
+  if(atype === 'finplan')
+    secs += section('🎯 Aim for HD — what markers reward (financial plan)', '', [
+      '<b>Apply, don\'t describe:</b> use your own numbers — reproducing general advice scores low.',
+      '<b>Justify assumptions</b> with evidence (salary from a real job ad).',
+      '<b>Internal consistency:</b> goals, position, risk profile and strategies must all align.',
+      '<b>Justify each strategy:</b> benefits, risks, trade-offs, and interactions.',
+      '<b>Professional presentation:</b> executive summary, clear headings, ToC, references, appendices.'
+    ]);
+
+  document.getElementById('guideList').innerHTML = secs;
+  document.getElementById('guideCard').style.display = 'block';
+}
+function section(name, alloc, points){
+  return `<div class="sec"><div class="head"><span class="name">${esc(name)}</span>${alloc?`<span class="alloc">${esc(alloc)}</span>`:''}</div>`+
+    `<ul class="do">${points.map(p=>`<li>${p}</li>`).join('')}</ul></div>`;
+}
+function cap(s){ return (s||'').charAt(0).toUpperCase()+ (s||'').slice(1); }
+function quoteWords(s, n){ const w=(s||'').trim().split(/\s+/); return esc(w.slice(0,n).join(' ')) + (w.length>n?'…':''); }
+
+function loadSample(){
+  setVal('prompt', "Discuss the main causes of the 2008 global financial crisis (1500 words)");
+  setVal('topic', "Macroeconomics");
+  setVal('material', "Subprime mortgages and the housing bubble. Mortgage-Backed Securities and Collateralized Debt Obligations. Credit Rating Agencies gave AAA ratings. Lehman Brothers collapse. Deregulation and the repeal of Glass-Steagall. Moral hazard and too big to fail. The Federal Reserve and low interest rates. Quantitative Easing as a response.");
+  buildPlan();
+}
+
+/* -------------------- LIVE COACH -------------------- */
+const editor = document.getElementById('editor');
+editor.addEventListener('input', analyze);
+editor.addEventListener('focus', function(){
+  if(editor.innerText.trim() === "Start writing your assignment here…") editor.innerHTML="<p></p>";
+});
+
+function analyze(){
+  const text = editor.innerText.replace(/ /g,' ').trim();
+  const words = (text.match(/\b[\w'-]+\b/g) || []);
+  const wc = words.length;
+  const sentences = (text.match(/[^.!?]+[.!?]+/g) || []);
+  const paras = editor.innerText.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+
+  document.getElementById('words').textContent = wc + " words";
+  document.getElementById('readtime').textContent = Math.max(1, Math.round(wc/200)) + " min read";
+  document.getElementById('sentences').textContent = sentences.length + " sentences";
+
+  if(wc < 5){
+    document.getElementById('scoreNum').textContent = "—";
+    document.getElementById('scoreWord').textContent = "Start writing to get scored";
+    document.getElementById('checks').innerHTML = "";
+    document.getElementById('tips').innerHTML = '<li class="empty" style="list-style:none">Tips will appear here as you write.</li>';
+    return;
+  }
+
+  const tw = targetWords(val('prompt'));
+  const promptWords = (val('prompt').toLowerCase().match(/[a-z]{4,}/g)||[]).filter(w=>!STOP.has(w));
+  const lower = text.toLowerCase();
+  const checks = [];
+  const tips = [];
+
+  // 1. Answers the prompt
+  if(promptWords.length){
+    const hits = [...new Set(promptWords)].filter(w=>lower.includes(w)).length;
+    const cov = hits / new Set(promptWords).size;
+    if(cov >= 0.5) checks.push(ok("Answers the prompt","Your writing references the key terms from the question."));
+    else {
+      const missing = [...new Set(promptWords)].filter(w=>!lower.includes(w)).slice(0,5);
+      checks.push(warn("On topic?","Few words from the prompt appear in your text — make sure you're answering what's actually asked."));
+      tips.push('✍️ <b>Answer the question more directly:</b> work these prompt words into your topic sentences — <b>' + missing.map(esc).join(', ') + '</b>.');
+    }
+  } else {
+    checks.push(warn("Prompt not set","Add the assignment prompt in section 1 so the coach can check you're answering it."));
+  }
+
+  // 2. Thesis / clear opening
+  const firstPara = paras[0] || "";
+  if(/\b(argue|argues|this essay|this paper|will show|i contend|the main|therefore|because)\b/i.test(firstPara) || firstPara.split(/\s+/).length > 25)
+    checks.push(ok("Has a clear opening","Your introduction sets up a position or roadmap."));
+  else { checks.push(bad("Weak / missing thesis","Your opening doesn't state a clear position or argument.")); tips.push('✍️ <b>Rewrite your opening — it has no clear thesis.</b> Add one sentence in this shape: <i>"This essay argues that [your answer] because [your main reasons]."</i> Then put it in your own words.'); }
+
+  // 3. Structure
+  if(paras.length >= 4) checks.push(ok("Good structure",`${paras.length} paragraphs — intro, body, conclusion shape.`));
+  else { checks.push(warn("Thin structure",`Only ${paras.length} paragraph(s). Aim for an intro, several body paragraphs, and a conclusion.`)); tips.push("Break your text into paragraphs — one main idea each, starting with a topic sentence."); }
+
+  // 4. Evidence / citations
+  const hasCite = /\([A-Za-z][^)]*\d{4}[^)]*\)|\[\d+\]|https?:\/\/|et al\.|\bp\.\s?\d+/.test(text);
+  if(hasCite) checks.push(ok("Evidence cited","Found citations/sources in your text."));
+  else { checks.push(bad("No citations found","Claims need backing.")); tips.push('✍️ <b>Back up your claims:</b> after each factual sentence add a citation like <i>(Author, Year)</i> — e.g. "Markets can fail without regulation (Smith, 2020)." Add one to every claim.'); }
+
+  // 5. Clarity — sentence length (+ pinpoint the worst offender so they can rewrite it)
+  const avgLen = sentences.length ? wc / sentences.length : wc;
+  const longest = sentences.slice().sort((x,y)=> y.trim().split(/\s+/).length - x.trim().split(/\s+/).length)[0] || '';
+  const longestLen = longest ? longest.trim().split(/\s+/).length : 0;
+  if(longestLen > 32){
+    checks.push(warn("A sentence is too long", longestLen + " words in one sentence — hard to follow."));
+    tips.push('✍️ <b>Split this sentence</b> (' + longestLen + ' words): "<i>' + quoteWords(longest,14) + '</i>" — find the joining word ("and" / "which" / "because") and break it into two.');
+  } else if(avgLen < 8 && sentences.length>3){ checks.push(warn("Choppy sentences",`Avg ${Math.round(avgLen)} words — feels abrupt.`)); tips.push("Combine some short sentences so the ideas flow into each other."); }
+  else checks.push(ok("Clear sentences",`Avg ${Math.round(avgLen)} words/sentence — easy to read.`));
+
+  // 6. Filler / weak words
+  const fillers = (lower.match(/\b(very|really|a lot|stuff|things|basically|kind of|sort of|in order to|due to the fact)\b/g)||[]);
+  if(fillers.length > 2){ const uniq=[...new Set(fillers)].slice(0,6); checks.push(warn("Filler words",`${fillers.length} vague/filler phrases.`)); tips.push('✍️ <b>Cut these filler words</b> and use precise ones instead: <b>' + uniq.map(esc).join(', ') + '</b>.'); }
+
+  // 7. Length vs target
+  if(tw){
+    const pct = Math.round(wc/tw*100);
+    if(pct < 70){ checks.push(warn("Under target",`${wc} / ${tw} words (${pct}%).`)); tips.push(`You're ${tw-wc} words short — develop your points with more evidence and analysis.`); }
+    else if(pct > 115){ checks.push(warn("Over target",`${wc} / ${tw} words (${pct}%).`)); tips.push("You're over the word limit — tighten and cut repetition."); }
+    else checks.push(ok("On target",`${wc} / ${tw} words — good length.`));
+  }
+
+  // 8. Conclusion
+  if(paras.length>=2 && /\b(in conclusion|to conclude|overall|in summary|ultimately|in short)\b/i.test(paras[paras.length-1]))
+    checks.push(ok("Has a conclusion","You wrap up your argument."));
+  else if(wc>120){ tips.push("Add a conclusion that restates your thesis and says why it matters — don't just stop."); }
+
+  // 9. Analytical / data-report specific (learned from a real HD BI report)
+  const aType = atypeResolved(val('prompt'));
+  if((aType === 'datareport' || aType === 'report') && wc > 120){
+    if(!/figure\s*\d|fig\.\s*\d/i.test(text)) tips.push('📊 Refer to your charts by number — "As shown in <b>Figure 2</b>…" — and interpret each one.');
+    if(!/\b(suggests?|indicates?|implies|therefore|reveals?|means that|highlights?)\b/i.test(lower)) tips.push('🔎 <b>Interpret, don\'t just describe:</b> after stating what a chart shows, add "this <i>suggests/indicates</i>… <i>therefore</i> the business should…".');
+    if(aType === 'datareport' && !/recommend/i.test(lower)) tips.push('💡 End with <b>3 actionable recommendations</b>, each tied to a specific finding/figure.');
+  }
+
+  // legal IRAC specific
+  if(aType === 'legal' && wc > 80){
+    if(!/\b(issue|rule|application|conclusion)\b/i.test(text)) tips.push('⚖️ Use <b>IRAC headings</b> — Issue, Rule, Application, Conclusion — for each scenario.');
+    if(!/\bs\s?\d+|\bsection\s+\d+|\[\d{4}\]|\bact\b|\bv\b\.?\s+[A-Z]/i.test(text)) tips.push('📚 <b>Cite the law:</b> name the statute/section, case authority, and textbook page for each rule.');
+    if(!/\b(more likely|on balance|would likely|the court would|is likely to|i advise|we advise)\b/i.test(lower)) tips.push('⚖️ Conclude with clear advice — what is <b>more likely if it goes to court</b>.');
+  }
+
+  // financial plan specific
+  if(aType === 'finplan' && wc > 80){
+    if(!/\bassum/i.test(lower)) tips.push('💰 State and <b>justify your assumptions</b> (salary from a real job ad, expenses, tax).');
+    if(!/\bexecutive summary\b/i.test(lower)) tips.push('💰 Add an <b>executive summary</b> up top with your goals + key strategies.');
+  }
+
+  // score = proportion of green, weighted
+  let score = 0, weight = 0;
+  checks.forEach(c=>{ weight++; score += c.k==='good'?1 : c.k==='warn'?0.5 : 0; });
+  const pct = Math.round(score/weight*100);
+  const num = document.getElementById('scoreNum');
+  num.textContent = pct;
+  num.style.color = pct>=75?'var(--good)':pct>=50?'var(--warn)':'var(--bad)';
+  document.getElementById('scoreWord').textContent = pct>=75?'Strong — polish & submit (your own work!)':pct>=50?'Getting there — work the tips below':'Early draft — keep building';
+
+  document.getElementById('checks').innerHTML = checks.map(c=>
+    `<div class="check"><span class="dot ${c.k}">${c.k==='good'?'✓':c.k==='warn'?'!':'✕'}</span><div><div class="t">${c.t}</div><div class="d">${c.d}</div></div></div>`).join('');
+
+  document.getElementById('tips').innerHTML = tips.length
+    ? tips.map(t=>`<li>${t}</li>`).join('')
+    : '<li class="good">No issues flagged — nice work. Re-read once more aloud before submitting.</li>';
+}
+function ok(t,d){return {k:'good',t,d};}
+function warn(t,d){return {k:'warn',t,d};}
+function bad(t,d){return {k:'bad',t,d};}
+
+/* ==================== CODE (PYTHON) MODE ==================== */
+let MODE = 'essay';
+function setMode(m){
+  MODE = m;
+  document.getElementById('essayMode').style.display = m==='essay' ? 'block' : 'none';
+  document.getElementById('codeMode').style.display  = m==='code'  ? 'block' : 'none';
+  document.getElementById('tabEssay').classList.toggle('active', m==='essay');
+  document.getElementById('tabCode').classList.toggle('active', m==='code');
+  if(m==='code') analyzeCode(); else analyze();
+}
+
+let LANG = 'python';
+const EXT = { python:'py', cpp:'cpp', java:'java', javascript:'js' };
+const TEMPLATES = {
+  python: `# Write your Python here\ndef main():\n    name = input('Enter your name: ')\n    print('Hello,', name)\n\nif __name__ == '__main__':\n    main()\n`,
+  cpp: `#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "Hello, world!" << endl;\n    return 0;\n}\n`,
+  java: `public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, world!");\n    }\n}\n`,
+  javascript: `function main() {\n  console.log("Hello, world!");\n}\nmain();\n`
+};
+const PISTON = {
+  cpp:        { language:'c++',        version:'10.2.0',  file:'main.cpp' },
+  java:       { language:'java',       version:'15.0.2',  file:'Main.java' },
+  javascript: { language:'javascript', version:'18.15.0', file:'main.js' }
+};
+
+const codeEditor = document.getElementById('codeEditor');
+codeEditor.addEventListener('input', ()=>{ codeEditor.dataset.template=''; analyzeCode(); });
+codeEditor.addEventListener('keydown', function(e){
+  if(e.key === 'Tab'){
+    e.preventDefault();
+    const s = this.selectionStart, en = this.selectionEnd;
+    this.value = this.value.slice(0,s) + '    ' + this.value.slice(en);
+    this.selectionStart = this.selectionEnd = s + 4;
+  }
+});
+
+function changeLang(){
+  LANG = document.getElementById('lang').value;
+  document.getElementById('dlCode').textContent = '⬇ Download .' + EXT[LANG];
+  updateRunNote();
+  if(!codeEditor.value.trim() || codeEditor.dataset.template === '1') loadTemplate();
+  else analyzeCode();
+}
+function loadTemplate(){ codeEditor.value = TEMPLATES[LANG]; codeEditor.dataset.template = '1'; analyzeCode(); }
+function updateRunNote(){
+  const n = document.getElementById('runNote');
+  if(LANG === 'python')
+    n.innerHTML = 'Python runs <b>locally in your browser</b> (private, via Pyodide). First run downloads the engine once (~5s). <code>input()</code> works via a popup.';
+  else
+    n.innerHTML = '⚠️ ' + LANG.toUpperCase() + " can't run inside a browser, so <b>Run sends your code to a free public compiler service (Piston) to execute it</b>. Needs internet. For programs that read input, you'll be asked to type it once.";
+}
+function downloadCode(){
+  const name = LANG === 'java' ? 'Main.java' : 'assignment.' + EXT[LANG];
+  dl(new Blob([codeEditor.value], {type:'text/plain'}), name);
+}
+function insertCoverSheet(){
+  if(/cover sheet/i.test(codeEditor.value.slice(0,400))) return; // already has one
+  const sheet = LANG === 'python'
+    ? '"""\nAssessment Cover Sheet\nName: [Your name]\nStudent ID: [Your ID]\nUnit Code: [e.g. CYB103]\nSemester: [1 or 2]\nYear: [2026]\nTask: [e.g. Lab Activity 4 (Week 8)]\nDescription: [one line — what this program does]\n"""\n\n'
+    : '/*\n Assessment Cover Sheet\n Name: [Your name]\n Student ID: [Your ID]\n Unit Code: [...]\n Semester: [1 or 2]\n Year: [2026]\n Task: [...]\n Description: [one line — what this program does]\n*/\n\n';
+  codeEditor.value = sheet + codeEditor.value;
+  codeEditor.dataset.template = '';
+  analyzeCode();
+}
+
+function resetCoach(msg){
+  document.getElementById('scoreNum').textContent = '—';
+  document.getElementById('scoreWord').textContent = msg;
+  document.getElementById('checks').innerHTML = '';
+  document.getElementById('tips').innerHTML = '<li class="empty" style="list-style:none">Tips will appear here as you write.</li>';
+}
+
+function renderCoach(checks, tips, good, mid, low){
+  let score=0, weight=0;
+  checks.forEach(c=>{ weight++; score += c.k==='good'?1 : c.k==='warn'?0.5 : 0; });
+  const pct = weight ? Math.round(score/weight*100) : 0;
+  const num = document.getElementById('scoreNum');
+  num.textContent = pct;
+  num.style.color = pct>=75?'var(--good)':pct>=50?'var(--warn)':'var(--bad)';
+  document.getElementById('scoreWord').textContent = pct>=75?good:pct>=50?mid:low;
+  document.getElementById('checks').innerHTML = checks.map(c=>
+    `<div class="check"><span class="dot ${c.k}">${c.k==='good'?'✓':c.k==='warn'?'!':'✕'}</span><div><div class="t">${c.t}</div><div class="d">${c.d}</div></div></div>`).join('');
+  document.getElementById('tips').innerHTML = tips.length
+    ? tips.map(t=>`<li>${t}</li>`).join('')
+    : '<li class="good">No issues flagged — now click ▶ Run to prove it works.</li>';
+}
+
+function analyzeCode(){
+  const code = codeEditor.value;
+  const lines = code.split('\n');
+  document.getElementById('codeLines').textContent = lines.length + ' lines';
+  if(code.trim().length < 3){ resetCoach('Write some code to get checked'); return; }
+
+  if(looksLikeNotebook(code)){
+    const num = document.getElementById('scoreNum');
+    num.textContent = '!'; num.style.color = 'var(--warn)';
+    document.getElementById('scoreWord').textContent = 'That looks like a notebook file';
+    document.getElementById('checks').innerHTML = '<div class="check"><span class="dot bad">✕</span><div><div class="t">Pasted a notebook (.ipynb)</div><div class="d">A notebook is JSON, not Python — it won\'t run as-is.</div></div></div>';
+    document.getElementById('tips').innerHTML = '<li>📓 You pasted a Jupyter notebook (.ipynb). Click <b>✨ Auto-fix</b> (or just hit ▶ Run) and I\'ll extract your actual Python code from it.</li>';
+    return;
+  }
+
+  const checks = [], tips = [];
+  const cmt = LANG === 'python' ? '#' : '//';
+
+  // comments (all languages)
+  if(/(^|\s)(#|\/\/)|\/\*[\s\S]*?\*\/|"""[\s\S]*?"""/.test(code))
+    checks.push(ok('Has comments','You explain what the code does.'));
+  else { checks.push(warn('No comments','Graders look for these.')); tips.push('Add <code>'+cmt+'</code> comments explaining the tricky parts.'); }
+
+  // output
+  const outRe = LANG==='python' ? /\bprint\s*\(/ : LANG==='java' ? /System\.out\.print/ : LANG==='cpp' ? /\bcout\s*<</ : /console\.log|process\.stdout/;
+  if(outRe.test(code)) checks.push(ok('Produces output','Found an output statement.'));
+  else { checks.push(warn('No output','Nothing is printed.')); tips.push('Print your results so the program shows output.'); }
+
+  // functions / methods
+  const fnRe = LANG==='python' ? /\bdef\s+\w+\s*\(/
+             : LANG==='java'   ? /\b(public|private|protected|static)[\w<>\[\] ]+\s+\w+\s*\([^)]*\)\s*\{/
+             : LANG==='cpp'    ? /\b[\w:<>*&]+\s+\w+\s*\([^)]*\)\s*\{/
+             :                   /\bfunction\s+\w+\s*\(|=>/;
+  if(fnRe.test(code)) checks.push(ok('Uses functions/methods','Logic is split into functions — clean.'));
+  else { checks.push(warn('No functions','All code in one block.')); tips.push('Split your logic into functions/methods.'); }
+
+  if(LANG === 'python'){
+    if(/if\s+__name__\s*==\s*['"]__main__['"]/.test(code)) checks.push(ok('Has main guard','Uses if __name__ == "__main__".'));
+    else if(/\bdef\s+main\s*\(/.test(code)) tips.push('You have a main() — call it under <code>if __name__ == "__main__":</code> at the bottom.');
+    if(/\btry\s*:/.test(code)) checks.push(ok('Handles errors','try/except present.'));
+    else if(/int\s*\(\s*input|float\s*\(\s*input/.test(code)) tips.push('Wrap <code>int(input())</code> in try/except so bad input doesn\'t crash it.');
+    if(/\bprint\s+["'][^(]/.test(code)){ checks.push(bad('Python-2 print','Needs parentheses in Python 3.')); tips.push('Click <b>✨ Auto-fix</b> to wrap print in parentheses.'); }
+    if(/^\t/m.test(code) && /^[ ]/m.test(code)){ checks.push(warn('Mixed tabs & spaces','Causes IndentationError.')); tips.push('Click <b>✨ Auto-fix</b> to convert tabs to spaces.'); }
+
+    // --- HD rubric checks (learned from a real 10/10 submission) ---
+    const head = code.slice(0,700).toLowerCase();
+    if(/name\s*:/.test(head) && /(student\s*id|id\s*:)/.test(head)) checks.push(ok('Cover sheet','Name + student ID up top (Meeting Specs = 10%).'));
+    else tips.push('📋 Add a <b>cover sheet</b> at the very top (name, student ID, unit, week) — easy 10% (Meeting Specs). Use the "📋 Insert cover sheet" button.');
+
+    if(/\binput\s*\(/.test(code)){
+      if(/try\s*:/.test(code) || /not in\s*\[|==\s*['"]|!=\s*['"]/.test(code)) checks.push(ok('Validates input','Guards user input (Correctness = 60%).'));
+      else tips.push('Validate user input — guard number conversions with try/except and reject invalid menu choices (Correctness = 60%).');
+    }
+    if(/\.join\s*\(/.test(code)) checks.push(ok('Efficient output','Uses "".join() — good for performance (Efficiency = 10%).'));
+    else if(/=\s*['"]{2}/.test(code) && /\b(for|while)\b/.test(code) && /\w+\s*\+=\s*\w/.test(code))
+      tips.push('⚡ Building a string with <code>+=</code> in a loop is slow — collect parts in a list and <code>"".join()</code> at the end (Efficiency = 10%).');
+
+    if(/\bclass(es)?\b|object|\boop\b|inheritance|polymorph/i.test(val('prompt')+' '+val('topic'))){
+      if(/\bclass\s+\w+/.test(code)) checks.push(ok('Uses classes','Defines classes — matches an OOP brief.'));
+      else { checks.push(bad('No classes','The task asks for classes/OOP but none found.')); tips.push('This is a "design with classes" task — define <code>class</code>es (each with one job) and use inheritance (Correctness + Specs).'); }
+    }
+    const singleVars = (code.match(/^\s*[a-z]\s*=[^=]/gm)||[]).filter(s=>!/^\s*[ijknxy]\b/.test(s)).length;
+    if(singleVars >= 3) tips.push('Use descriptive variable names instead of single letters (Readability = 10%).');
+  } else {
+    const opens = (code.match(/\{/g)||[]).length, closes = (code.match(/\}/g)||[]).length;
+    if(opens !== closes){ checks.push(bad('Unbalanced { }', opens+' open vs '+closes+' close braces.')); tips.push('Match every <code>{</code> with a <code>}</code>.'); }
+    else checks.push(ok('Braces balanced','{ } counts match.'));
+    if(LANG==='java' && /public\s+class\s+(\w+)/.test(code) && !/public\s+class\s+Main\b/.test(code))
+      tips.push('The runner compiles <code>Main.java</code> — make your public class <code>Main</code>, or name the file to match the class when you submit.');
+    if((LANG==='cpp') && !/int\s+main\s*\(/.test(code)) tips.push('A C++ program needs an <code>int main()</code> entry point.');
+  }
+
+  tips.push('▶ <b>Run</b> it to prove it works — code that doesn\'t run loses the most marks.');
+  renderCoach(checks, tips,
+    'Looks solid — now Run it to confirm', 'Getting there — work the tips', 'Early draft — keep building');
+}
+
+/* ---- run Python in the browser via Pyodide ---- */
+let pyodide = null, pyLoading = null;
+function loadScript(src){
+  return new Promise((res, rej)=>{
+    const s = document.createElement('script');
+    s.src = src; s.onload = res;
+    s.onerror = ()=>rej(new Error('Could not load a required library — check your internet connection.'));
+    document.head.appendChild(s);
+  });
+}
+async function ensurePyodide(){
+  if(pyodide) return pyodide;
+  if(pyLoading) return pyLoading;
+  pyLoading = (async ()=>{
+    appendConsole('Loading Python engine… (first run only, ~5s)\n', 'sys');
+    await loadScript('https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js');
+    pyodide = await loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.26.2/full/' });
+    pyodide.setStdout({ batched: s => appendConsole(s, 'ok') });
+    pyodide.setStderr({ batched: s => appendConsole(s, 'err') });
+    await pyodide.runPythonAsync(`
+import builtins
+from js import prompt as _jsprompt
+def _input(p=''):
+    r = _jsprompt(p)
+    return '' if r is None else r
+builtins.input = _input
+`);
+    return pyodide;
+  })();
+  return pyLoading;
+}
+async function runPython(isRetry){
+  const btn = document.getElementById('runBtn');
+  if(!isRetry){
+    document.getElementById('console').innerHTML = '';
+    // pasted a notebook (.ipynb is JSON)? extract the real Python before running
+    if(looksLikeNotebook(codeEditor.value)){
+      const fix = applyAutoFixes(codeEditor.value);
+      if(fix.changes.length){
+        codeEditor.value = fix.code; codeEditor.dataset.template=''; analyzeCode(); showFixReport(fix, true);
+        appendConsole('⚠ That was a notebook (.ipynb) file — I extracted your Python and I\'m running that.\n', 'sys');
+      }
+    }
+  }
+  setStatus('Running…','sys');
+  btn.disabled = true; btn.textContent = 'Running…';
+  try{
+    const py = await ensurePyodide();
+    await py.runPythonAsync(codeEditor.value);
+    setStatus('✓ Ran successfully','ok');
+    appendConsole('\n[Program finished]', 'sys');
+  }catch(e){
+    const msg = String(e && e.message ? e.message : e);
+    // try to fix it automatically once, then re-run
+    if(!isRetry){
+      const fix = applyAutoFixes(codeEditor.value);
+      if(fix.changes.length){
+        codeEditor.value = fix.code; codeEditor.dataset.template = ''; analyzeCode();
+        showFixReport(fix, true);
+        appendConsole('\n⚠ Your code had a problem — I fixed it automatically:\n', 'sys');
+        fix.changes.forEach(c=>appendConsole('   • ' + c.replace(/<[^>]+>/g,'') + '\n', 'sys'));
+        appendConsole('Re-running the fixed code…\n', 'sys');
+        return runPython(true);
+      }
+    }
+    setStatus('✕ Error — see output below','err');
+    appendConsole(msg, 'err');
+    explainError(msg);
+  }finally{
+    btn.disabled = false; btn.textContent = '▶ Run code';
+  }
+}
+function setStatus(t, cls){ const s=document.getElementById('codeStatus'); s.textContent=t; s.className=cls||'sys'; }
+function appendConsole(text, cls){
+  const c = document.getElementById('console');
+  const span = document.createElement('span');
+  if(cls) span.className = cls;
+  span.textContent = text;
+  c.appendChild(span);
+  c.scrollTop = c.scrollHeight;
+}
+/* shared multi-language error explanations */
+function errorAdvice(msg){
+  const map = [
+    [/IndentationError|unexpected indent|expected an indented block/, 'IndentationError (Python) — your spacing is off. Indent code inside functions / loops / if-blocks by 4 spaces, consistently.'],
+    [/NameError/, 'NameError (Python) — you used a name that doesn\'t exist yet. Check spelling, or define/assign it before using it.'],
+    [/ModuleNotFoundError|ImportError/, 'Import error — that module isn\'t available. In the in-browser Python runner, stick to the standard library.'],
+    [/EOFError/, 'EOFError — input was cancelled. Click OK on the popup and type a value.'],
+    [/ZeroDivisionError|divide by zero|division by zero/i, 'Divide-by-zero — guard against a 0 denominator before dividing.'],
+    [/IndexError|out of range|ArrayIndexOutOfBounds|IndexOutOfBounds/, 'Index out of range — you accessed a position that doesn\'t exist. Indexes start at 0 and stop at length-1.'],
+    [/KeyError/, 'KeyError — that key isn\'t in the dictionary/map. Check the key name, or use .get().'],
+    [/ValueError/, 'ValueError — wrong kind of value, e.g. int("abc"). Validate input before converting it.'],
+    [/NullPointerException/, 'NullPointerException (Java) — you used an object that is null. Make sure it\'s created/assigned before you call methods on it.'],
+    [/cannot find symbol/, 'Java "cannot find symbol" — a variable, method, or class name isn\'t declared or is misspelled, or you\'re missing an import.'],
+    [/incompatible types|cannot be applied/, 'Java type mismatch — the types don\'t line up. Check the declared type vs the value/argument you\'re giving.'],
+    [/should be declared in a file named/, 'Java — a public class must live in a file named after it. Make your class <code>Main</code> (the runner uses Main.java).'],
+    [/non-static method .* cannot be referenced from a static context/, 'Java — you called an instance method from static main(). Make the method static, or create an object first.'],
+    [/undeclared identifier|was not declared in this scope/, 'C++ — that name isn\'t declared here. Declare the variable first, or add the missing <code>#include</code> / <code>using namespace std;</code>.'],
+    [/expected ['"`;]?;['"`]?|missing ['"`]?;|; expected/, 'Missing semicolon (C++/Java) — most statements must end with <code>;</code>. Check the line just before the one reported.'],
+    [/expected ['"`]?\}['"`]?|missing ['"`]?\}/, 'A closing brace <code>}</code> is missing — every <code>{</code> needs a matching <code>}</code>.'],
+    [/no matching function|no match for/, 'C++ — no function matches those argument types. Check the number/types of arguments you passed.'],
+    [/[Ss]egmentation fault/, 'Segmentation fault (C++) — usually an out-of-bounds array access or using an invalid/null pointer.'],
+    [/ReferenceError|is not defined/, 'JavaScript ReferenceError — that variable/function isn\'t defined. Check spelling, or declare it before use.'],
+    [/is not a function/, 'JavaScript — you called something that isn\'t a function. Check the name and that it\'s assigned a function.'],
+    [/TypeError/, 'TypeError — you combined incompatible types (e.g. string + number). Convert types explicitly (int(), str(), Number(), etc.).'],
+    [/was never closed|unexpected EOF|EOF while/, 'A bracket, quote, or paren was opened but never closed — check you closed every ( [ { and quote. (If you pasted a notebook .ipynb file, that\'s JSON not Python — click ✨ Auto-fix and I\'ll extract your code.)'],
+    [/SyntaxError|parse error|expected/, 'SyntaxError — a typo in the structure. Check the reported line for a missing bracket, quote, colon, or semicolon.'],
+    [/AttributeError/, 'AttributeError (Python) — that object has no such method/attribute. Check its type and spelling.']
+  ];
+  const hits = [];
+  for(const [re, tip] of map){ if(re.test(msg)) hits.push(tip); }
+  if(!hits.length) hits.push('Read the LAST line of the error first — it names the error type and (usually) a line number. Fix that line, then re-run.');
+  return hits.slice(0, 4);
+}
+function explainError(msg){ addTip('🔧 ' + errorAdvice(msg)[0]); }
+function decodeError(){
+  const msg = document.getElementById('errBox').value.trim();
+  const out = document.getElementById('errOut');
+  if(!msg){ out.className='report none'; out.innerHTML='Paste an error message above first.'; return; }
+  out.className = 'report error';
+  out.innerHTML = '<b>🔎 What this error means &amp; how to fix it:</b><ul>' +
+    errorAdvice(msg).map(t=>'<li>'+t+'</li>').join('') + '</ul>' +
+    '<div style="margin-top:6px;color:var(--muted)">Find the line number in the error and start there. Fix one error, re-run — later errors are often caused by the first.</div>';
+}
+
+/* run dispatch: Python local (private), others via public compiler API */
+function run(){ if(LANG === 'python') runPython(); else runViaPiston(); }
+function collectStdin(){
+  const code = codeEditor.value;
+  const reads = /\bcin\s*>>|scanf|getline|Scanner|System\.in|\.nextInt|\.nextLine|readline|prompt\s*\(/.test(code);
+  if(reads){ const v = window.prompt('This program reads input. Type all input values (space- or newline-separated):', ''); return v == null ? '' : v.replace(/\\n/g,'\n'); }
+  return '';
+}
+async function runViaPiston(){
+  const cfg = PISTON[LANG];
+  const btn = document.getElementById('runBtn');
+  document.getElementById('console').innerHTML = '';
+  setStatus('Running on compiler service…','sys');
+  btn.disabled = true; btn.textContent = 'Running…';
+  appendConsole('Sending your code to the public compiler service (Piston) to run…\n', 'sys');
+  try{
+    const res = await fetch('https://emkc.org/api/v2/piston/execute', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ language:cfg.language, version:cfg.version, files:[{name:cfg.file, content:codeEditor.value}], stdin:collectStdin() })
+    });
+    if(!res.ok) throw new Error('service returned HTTP ' + res.status);
+    const data = await res.json();
+    const r = data.run || {}, comp = data.compile;
+    const compErr = comp && comp.stderr ? comp.stderr : '';
+    if(compErr) appendConsole(compErr + '\n', 'err');
+    if(r.stdout) appendConsole(r.stdout, 'ok');
+    if(r.stderr) appendConsole(r.stderr, 'err');
+    if(!compErr && r.code === 0){ setStatus('✓ Ran successfully','ok'); }
+    else { setStatus('✕ Error — see output','err'); explainError(compErr + '\n' + (r.stderr||'')); }
+    appendConsole('\n[Finished]', 'sys');
+  }catch(e){
+    setStatus('✕ Could not run','err');
+    appendConsole('Could not reach the compiler service: ' + (e.message||e) + '\nIt needs internet. (Tip: Python runs offline, locally — switch the language to Python to run without a network.)', 'err');
+  }finally{ btn.disabled = false; btn.textContent = '▶ Run code'; }
+}
+
+/* detect a pasted Jupyter notebook (.ipynb is JSON, not Python) and pull the code out */
+function looksLikeNotebook(code){
+  const t = (code||'').trim();
+  return t.startsWith('{') && /"cells"|"cell_type"|"nbformat"|"source"\s*:/.test(t);
+}
+function extractNotebookCode(code){
+  const t = (code||'').trim();
+  if(!looksLikeNotebook(t)) return null;
+  // best path: parse the JSON properly and keep only code cells
+  try{
+    const nb = JSON.parse(t);
+    if(nb && Array.isArray(nb.cells)){
+      const src = nb.cells.filter(c=>c.cell_type==='code')
+        .map(c=> Array.isArray(c.source) ? c.source.join('') : (c.source||''))
+        .join('\n\n');
+      return src.trim() || null;
+    }
+  }catch(e){ /* malformed/partial JSON — fall back to regex */ }
+  // fallback: scrape "source": [ "..." , "..." ] arrays
+  const out = []; const re = /"source"\s*:\s*\[([\s\S]*?)\]/g; let m;
+  while((m = re.exec(t))){
+    const strs = m[1].match(/"(?:[^"\\]|\\.)*"/g) || [];
+    try { out.push(strs.map(s=>JSON.parse(s)).join('')); } catch(e){}
+  }
+  return out.length ? out.join('\n\n').trim() : null;
+}
+
+/* core auto-fixer — returns {code, changes, notes}; used by the button AND auto-run */
+function applyAutoFixes(code){
+  const changes = [], notes = [];
+  // 1) pasted a notebook? that's the whole problem — extract and stop
+  if(looksLikeNotebook(code)){
+    const extracted = extractNotebookCode(code);
+    if(extracted){
+      changes.push('You pasted a Jupyter notebook (.ipynb), which is JSON — not runnable Python. I pulled out your actual code cells.');
+      return { code: extracted, changes, notes };
+    }
+    notes.push('This looks like a notebook (.ipynb) but I couldn\'t read it — open it and copy just the code, or upload it in section 1.');
+    return { code, changes, notes };
+  }
+  // 2) safe mechanical fixes
+  if(/[“”‘’]/.test(code)){ code = code.replace(/[“”]/g,'"').replace(/[‘’]/g,"'"); changes.push('Curly “smart quotes” were used where code needs straight quotes — I replaced them.'); }
+  if(/\t/.test(code)){ code = code.replace(/\t/g,'    '); changes.push('Tabs were used for indentation — I converted them to 4 spaces.'); }
+  if(/[ \t]+$/m.test(code)){ code = code.replace(/[ \t]+$/gm,''); changes.push('There were trailing spaces at the ends of lines — I trimmed them.'); }
+  if(LANG === 'python'){
+    if(/^(\s*)print\s+(?!\()(.+?)\s*$/m.test(code)){ code = code.replace(/^(\s*)print\s+(?!\()(.+?)\s*$/gm,'$1print($2)'); changes.push('A <code>print</code> was missing parentheses (Python-2 style) — I added them for Python 3.'); }
+    code = code.replace(/^(\s*)(def|class|if|elif|else|for|while|try|except|finally|with)\b([^\n:#]*?)\s*$/gm, (m, ind, kw, rest)=>{
+      if(/[:\\]\s*$/.test(m) || /[\(\[\{]\s*$/.test(m)) return m;
+      changes.push('A colon <code>:</code> was missing after a <code>'+kw+'</code> statement — I added it.');
+      return ind + kw + rest + ':';
+    });
+  } else if(LANG === 'javascript' && /[^=!<>]==[^=]/.test(code)){
+    notes.push('Spotted <code>==</code> — consider <code>===</code> for safer comparisons (left as-is — your choice).');
+  }
+  return { code, changes, notes };
+}
+
+function showFixReport(fix, fromRun){
+  const rep = document.getElementById('fixReport');
+  rep.className = 'report';
+  rep.innerHTML = '<b>' + (fromRun ? '⚠ Your code didn\'t run — here\'s what was wrong, and what I fixed:' : '✨ Here\'s what was wrong, and what I fixed:') + '</b>' +
+    '<ul>' + fix.changes.map(c=>'<li>'+c+'</li>').join('') + '</ul>' +
+    '<div style="margin-top:4px;color:var(--good)">✅ Fixed — look it over so you learn it, then ▶ Run again.</div>' +
+    (fix.notes.length ? '<div style="margin-top:6px;color:var(--muted)">'+fix.notes.join('<br>')+'</div>' : '');
+}
+
+/* ✨ Auto-fix button */
+function autoFix(){
+  const before = codeEditor.value;
+  const fix = applyAutoFixes(before);
+  if(fix.code !== before && fix.changes.length){
+    codeEditor.value = fix.code; codeEditor.dataset.template=''; analyzeCode();
+    showFixReport(fix, false);
+  } else {
+    const rep = document.getElementById('fixReport');
+    rep.className = 'report none';
+    rep.innerHTML = '✓ Nothing mechanical to fix — your syntax basics look clean. Run it to catch logic errors.' +
+      (fix.notes.length ? '<div style="margin-top:6px;color:var(--muted)">'+fix.notes.join('<br>')+'</div>' : '');
+  }
+}
+
+/* ✨ essay tidy: spelling/spacing/capitalisation mechanics only — wording stays theirs */
+function tidyEssay(){
+  let text = editor.innerText;
+  if(text.trim() === 'Start writing your assignment here…') text = '';
+  const original = text; const changes = [];
+  if(/ {2,}/.test(text)){ text = text.replace(/ {2,}/g,' '); changes.push('Collapsed double spaces into single spaces.'); }
+  if(/\s+([,.;:!?])/.test(text)){ text = text.replace(/\s+([,.;:!?])/g,'$1'); changes.push('Removed spaces before punctuation.'); }
+  if(/([,.;:!?])(?=[A-Za-z])/.test(text)){ text = text.replace(/([,.;:!?])(?=[A-Za-z])/g,'$1 '); changes.push('Added a missing space after punctuation.'); }
+  let pn = text.replace(/\bi\b/g,'I').replace(/\bi'(m|ve|ll|d)\b/gi, m => 'I' + m.slice(1));
+  if(pn !== text){ text = pn; changes.push('Capitalised the pronoun "I".'); }
+  let cap2 = text.replace(/(^\s*|[.!?]\s+)([a-z])/g, (m,p,c)=> p + c.toUpperCase());
+  if(cap2 !== text){ text = cap2; changes.push('Capitalised the first letter of sentences.'); }
+  if(/\b(the|a|an|and|to|of|in|on|is|are|was|were|it|for)\s+\1\b/i.test(text)){ text = text.replace(/\b(the|a|an|and|to|of|in|on|is|are|was|were|it|for)(\s+)\1\b/gi,'$1'); changes.push('Removed accidentally repeated words (e.g. "the the").'); }
+  if(/([.,!?])\1{1,}/.test(text)){ text = text.replace(/([.,!?])\1{1,}/g,'$1'); changes.push('Collapsed repeated punctuation (e.g. "!!" → "!").'); }
+  const rep = document.getElementById('fixReport2');
+  if(text !== original && text.trim()){
+    const paras = text.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+    editor.innerHTML = paras.map(p=>'<p>'+esc(p)+'</p>').join('') || '<p></p>';
+    rep.className = 'report';
+    rep.innerHTML = '<b>✨ Fixed ' + changes.length + ' objective error(s):</b><ul>' + changes.map(c=>'<li>'+esc(c)+'</li>').join('') +
+      '</ul><div style="margin-top:6px;color:var(--muted)">These are objective spelling/spacing/grammar fixes. For <b>rewriting weak sentences or arguments</b>, use the live coach on the right — it tells you exactly what to change and how, so the writing stays yours.</div>';
+    analyze();
+  } else {
+    rep.className = 'report none';
+    rep.innerHTML = '✓ No basic spelling/spacing issues found.';
+  }
+}
+function addTip(t){
+  const ul = document.getElementById('tips');
+  const empty = ul.querySelector('.empty'); if(empty) ul.innerHTML='';
+  const li = document.createElement('li'); li.innerHTML = t;
+  ul.insertBefore(li, ul.firstChild);
+}
+function downloadPy(){
+  dl(new Blob([codeEditor.value], {type:'text/x-python'}), 'assignment.py');
+}
+
+/* -------------------- DOWNLOADS -------------------- */
+function editorText(){ return editor.innerText.trim(); }
+function editorHtml(){ return editor.innerHTML; }
+
+function downloadTxt(){
+  dl(new Blob([editorText()], {type:'text/plain'}), 'assignment.txt');
+}
+function downloadDocx(){
+  const html = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Assignment</title></head><body style="font-family:Calibri,Arial;font-size:12pt;line-height:1.6">${editorHtml()}</body></html>`;
+  dl(new Blob(['﻿', html], {type:'application/msword'}), 'assignment.doc');
+}
+function downloadPdf(){
+  const w = window.open('', '_blank');
+  w.document.write(`<html><head><title>Assignment</title><style>body{font-family:Georgia,serif;line-height:1.7;max-width:720px;margin:40px auto;padding:0 20px;color:#111}p{margin:0 0 12px}</style></head><body>${editorHtml()}<script>window.onload=function(){window.print();}<\/script></body></html>`);
+  w.document.close();
+}
+function dl(blob, name){
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+}
+
+/* helpers */
+function val(id){ return (document.getElementById(id).value||'').trim(); }
+function setVal(id,v){ document.getElementById(id).value=v; }
+function esc(s){ return (s||'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+/* init */
+updateRunNote();
+loadTemplate();
+</script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://shubhamyadav730405-droid.github.io/sitemap.xml
