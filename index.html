@@ -222,13 +222,25 @@
   .license { margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
   .license input { flex: 1; min-width: 200px; }
   #licenseMsg { font-size: 13px; margin-top: 6px; }
+
+  /* worked examples */
+  .ex-tabs { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 16px; }
+  .ex-tab { border:1px solid var(--line); background:#fff; color:var(--muted); padding:8px 14px; border-radius:9px; font:inherit; font-weight:600; font-size:13px; cursor:pointer; }
+  .ex-tab.active { background:var(--brand); color:#fff; border-color:var(--brand); }
+  .ex-badge { display:inline-block; background:#fef3c7; color:#92400e; border:1px solid #fde68a; font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px; letter-spacing:.02em; }
+  .ex-title { font-size:16px; font-weight:700; margin:8px 0 4px; }
+  .ex-seg { border-left:3px solid var(--brand-soft); padding:2px 0 2px 16px; margin:14px 0; }
+  .ex-text { font-family:Georgia,'Times New Roman',serif; font-size:15px; line-height:1.7; color:#1f2937; }
+  .ex-code { background:#0f172a; color:#e2e8f0; border-radius:10px; padding:12px 14px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:12.5px; line-height:1.55; white-space:pre; overflow-x:auto; margin:0; }
+  .ex-note { background:#eff6ff; border:1px solid #dbeafe; color:#1e3a8a; font-size:13px; border-radius:9px; padding:9px 12px; margin-top:8px; }
+  .ex-lock { text-align:center; background:linear-gradient(180deg,#ffffff,#f8fafc); border:1px dashed var(--line); border-radius:12px; padding:22px; margin-top:14px; color:var(--ink); font-size:14px; }
 </style>
 </head>
 <body>
 <header class="topbar">
   <div class="brand"><span class="logo">✓</span> Assignment Helper</div>
   <div style="display:flex; align-items:center; gap:12px;">
-    <span class="tagline">Learn to do it yourself — faster and better</span>
+    <a href="#examples" style="text-decoration:none;color:var(--brand);font-weight:600;font-size:13px">📚 Examples</a>
     <span class="pro-badge" id="proBadge">★ PRO</span>
     <a class="upgrade-btn" id="upgradeBtn" href="#pricing">✨ Upgrade</a>
   </div>
@@ -398,6 +410,20 @@
     </div>
   </div>
 
+</div>
+
+<div class="support" id="examples">
+  <div class="card">
+    <h2 style="margin-bottom:4px">📚 Worked Examples <span style="font-size:12px;color:var(--brand);font-weight:800;vertical-align:middle">PRO</span></h2>
+    <p class="empty" style="margin-top:0">Full model answers, broken down so you see exactly how a top answer is built — then write your own. These are examples on <b>sample</b> topics, not your assignment.</p>
+    <div class="ex-tabs" id="exTabs">
+      <button class="ex-tab active" data-ex="essay" onclick="pickExample('essay',this)">Essay</button>
+      <button class="ex-tab" data-ex="legal" onclick="pickExample('legal',this)">Legal (IRAC)</button>
+      <button class="ex-tab" data-ex="datareport" onclick="pickExample('datareport',this)">Data report</button>
+      <button class="ex-tab" data-ex="python" onclick="pickExample('python',this)">Python code</button>
+    </div>
+    <div id="exBody"></div>
+  </div>
 </div>
 
 <div class="support" id="pricing">
@@ -1669,6 +1695,7 @@ function applyProState(){
   const up = document.getElementById('upgradeBtn');
   if(badge) badge.style.display = pro ? 'inline-flex' : 'none';
   if(up) up.style.display = pro ? 'none' : 'inline-flex';
+  renderExample(CUR_EX);
 }
 async function unlockPro(){
   const key = (document.getElementById('licenseKey').value || '').trim();
@@ -1691,6 +1718,71 @@ async function unlockPro(){
   }catch(e){
     out.style.color = 'var(--bad)'; out.textContent = 'Couldn\'t verify (needs internet, and the store must be set up). Try again.';
   }
+}
+
+/* ---- Worked Examples (Pro): annotated model answers ---- */
+const EXAMPLES = {
+  essay: {
+    title: 'Essay — "To what extent does social media harm teenage mental health?"',
+    segs: [
+      {t:'prose', text:'The average teenager now spends over seven hours a day on screens, much of it on social media (Twenge, 2017).', note:'Open with a striking, cited fact. It earns attention and signals real research from the very first line.'},
+      {t:'prose', text:'This essay argues that, while social media offers genuine connection, on balance it harms teenage mental health — primarily through sleep disruption and social comparison.', note:'A clear thesis: it takes a position ("on balance it harms") and previews the two reasons. Markers look for this sentence first.'},
+      {t:'prose', text:'The clearest harm is sleep disruption. Late-night scrolling delays sleep onset; one study found teens using social media after 10pm slept 48 minutes less on average (Royal Society, 2021).', note:'Point then evidence with a specific statistic and citation. Concrete numbers beat vague claims like "many studies show…".'},
+      {t:'prose', text:'This matters because sleep loss is strongly linked to anxiety and weaker academic performance, so the harm compounds well beyond mood alone.', note:'Do not stop at evidence — explain WHY it matters and link it back to your thesis ("harm").'},
+      {t:'prose', text:'Admittedly, social media also provides vital support for isolated teens, such as LGBTQ+ youth who find community online (GLAAD, 2020). However, this localised benefit does not outweigh the broad, well-documented effects on sleep and self-image.', note:'Acknowledge the strongest opposing view fairly, then weigh it. This "steelman then rebut" move lifts a pass into a distinction.'},
+      {t:'prose', text:'In conclusion, social media’s connective benefits are real but localised, while its harms to sleep and self-image are broad and well-evidenced. On balance, it does more harm than good.', note:'Restate the thesis in fresh words and answer the "to what extent" directly. Never introduce new evidence in a conclusion.'}
+    ]
+  },
+  legal: {
+    title: 'Legal (IRAC) — a café buys a "commercial-grade" coffee machine that fails in a week',
+    segs: [
+      {t:'prose', text:'Issue: Was the consumer guarantee of acceptable quality under the Australian Consumer Law (ACL) breached when the "commercial-grade" coffee machine failed after one week?', note:'State the precise legal question and name the specific guarantee — not just "was there a breach?".'},
+      {t:'prose', text:'Rule: Under s 54 of the ACL, goods supplied in trade must be of acceptable quality — durable and free from defects that a reasonable consumer would regard as acceptable. Major failures attract remedies under s 259.', note:'Pinpoint the exact section (s 54) and define its elements ("durable, free from defects"). Statute pinpoint-citations score highly.'},
+      {t:'prose', text:'Application: A machine marketed as "commercial-grade" that fails within a week is not durable by any reasonable standard. A reasonable consumer paying a premium for that grade would not accept a one-week lifespan, so the defect is significant rather than minor.', note:'Apply EACH element to THESE facts ("commercial-grade", "one week"). Linking the law to the specific facts is the highest-scoring part of IRAC.'},
+      {t:'prose', text:'Conclusion: The guarantee of acceptable quality was breached. As the failure is major, the buyer is likely entitled to a refund or replacement under s 259.', note:'Give clear advice and state the likely outcome ("likely entitled to"). The conclusion must follow from your application — no new law here.'}
+    ]
+  },
+  datareport: {
+    title: 'Data report — one analytical insight from a bank dashboard',
+    segs: [
+      {t:'prose', text:'As shown in Figure 4, customers aged 65+ make up 32% of the base, while the 25–34 group is just 0.4%.', note:'State what the figure shows, with the actual numbers — and always reference the figure by number.'},
+      {t:'prose', text:'This indicates the bank’s portfolio is heavily dependent on an ageing customer base and is failing to attract the next generation of banking customers.', note:'Interpret — say what the finding MEANS for the business. Describing the chart alone scores low.'},
+      {t:'prose', text:'Strategically, this exposes the bank to long-term decline as older customers exit, so it should prioritise a youth-acquisition campaign before the gap widens.', note:'End with the strategic implication. This "finding then meaning then implication" chain is exactly what earns the analysis marks.'}
+    ]
+  },
+  python: {
+    title: 'Python — the patterns that earn an HD on a "design with classes" task',
+    segs: [
+      {t:'code', text:'"""\nName: [Your name]   Student ID: [Your ID]\nUnit: CYB103     Task: Caesar Cipher\n"""', note:'Start with a cover-sheet docstring (name, ID, unit, task). It is an easy 10% on "meeting specifications" that students forget.'},
+      {t:'code', text:'class Cipher:\n    def encrypt(self, text):\n        raise NotImplementedError\n\nclass CaesarCipher(Cipher):\n    def __init__(self, shift):\n        self.shift = shift % 26', note:'A base class plus a subclass shows inheritance and abstraction — precisely what a "design with classes" task rewards.'},
+      {t:'code', text:'result = []\nfor ch in text:\n    result.append(shifted)\nreturn "".join(result)', note:'Build strings with a list + "".join(), never += inside a loop. This is the efficiency move markers look for.'},
+      {t:'code', text:'try:\n    shift = int(input("Shift: "))\nexcept ValueError:\n    print("Please enter a number")', note:'Wrap int(input()) in try/except so bad input never crashes the program — this protects most of the "correctness" marks.'},
+      {t:'code', text:'if __name__ == "__main__":\n    main()', note:'Run your program under a main guard. It is clean, professional, and expected at HD level.'}
+    ]
+  }
+};
+let CUR_EX = 'essay';
+function pickExample(key, btn){
+  CUR_EX = key;
+  document.querySelectorAll('.ex-tab').forEach(t=>t.classList.toggle('active', t===btn));
+  renderExample(key);
+}
+function renderExample(key){
+  const ex = EXAMPLES[key]; if(!ex) return;
+  const el = document.getElementById('exBody'); if(!el) return;
+  const pro = isPro(); const freeCount = 2;
+  let html = '<div><span class="ex-badge">STUDY EXAMPLE — learn the technique, then write your own</span></div>' +
+             '<div class="ex-title">' + esc(ex.title) + '</div>';
+  ex.segs.forEach((s,i)=>{
+    if(!pro && i >= freeCount) return;
+    const body = s.t === 'code' ? '<pre class="ex-code">' + esc(s.text) + '</pre>' : '<div class="ex-text">' + esc(s.text) + '</div>';
+    html += '<div class="ex-seg">' + body + '<div class="ex-note">💡 <b>The move:</b> ' + esc(s.note) + '</div></div>';
+  });
+  if(!pro && ex.segs.length > freeCount){
+    html += '<div class="ex-lock">🔒 <b>' + (ex.segs.length - freeCount) + ' more annotated sections</b> in this example — plus the full Essay, Legal IRAC, Data-report and Python walkthroughs.' +
+            '<br><a class="cta primary" href="#pricing" style="display:inline-block;margin-top:12px;padding:10px 18px;width:auto">Unlock all Worked Examples with Pro →</a></div>';
+  }
+  el.innerHTML = html;
 }
 function dl(blob, name){
   const a = document.createElement('a');
